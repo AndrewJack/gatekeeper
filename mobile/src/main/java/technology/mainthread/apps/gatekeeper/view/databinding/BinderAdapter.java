@@ -44,23 +44,32 @@ public class BinderAdapter {
     public static void formatEvent(TextView textView, String state) {
         String prettyState;
         switch (state) {
-            case "handset-activated":
+            case "gatekeeper/setup":
+                prettyState = "System online";
+                break;
+            case "gatekeeper/handset-activated":
                 prettyState = "Handset called";
                 break;
-            case "handset-deactivated":
+            case "gatekeeper/handset-deactivated":
                 prettyState = "Handset call finished";
                 break;
-            case "system-primed":
+            case "gatekeeper/primed":
                 prettyState = "Primed";
                 break;
-            case "system-unprimed":
-                prettyState = "Un-primed";
+            case "gatekeeper/unprimed":
+                prettyState = "Unprimed";
                 break;
-            case "door-unlocked":
+            case "gatekeeper/unlocked":
                 prettyState = "Door unlocked";
                 break;
+            case "gatekeeper/door-opened":
+                prettyState = "Door opened";
+                break;
+            case "gatekeeper/door-closed":
+                prettyState = "Door closed";
+                break;
             default:
-                prettyState = "Unknown event";
+                prettyState = state;
                 break;
         }
         textView.setText(prettyState);
