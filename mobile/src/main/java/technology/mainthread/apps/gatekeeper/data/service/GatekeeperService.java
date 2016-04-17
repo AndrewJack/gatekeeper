@@ -24,19 +24,19 @@ public interface GatekeeperService {
     Observable<DeviceStatus> primedStatusResult();
 
     @Headers({BuildConfig.PARTICLE_AUTH})
-    @GET("doorStatus")
+    @GET("isDoorOpen")
     Observable<Response<DeviceStatus>> doorStatus();
 
     @Headers({BuildConfig.PARTICLE_AUTH})
-    @GET("doorStatus")
+    @GET("isDoorOpen")
     Observable<DeviceStatus> doorStatusResult();
 
     @Headers({BuildConfig.PARTICLE_AUTH})
-    @POST("doorOpen")
+    @POST("unlock")
     Observable<Response<DeviceAction>> unlock();
 
     @Headers({BuildConfig.PARTICLE_AUTH})
-    @POST("primeSystem")
+    @POST("prime")
     Observable<Response<DeviceAction>> prime();
 
 }
