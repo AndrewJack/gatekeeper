@@ -1,7 +1,6 @@
 package technology.mainthread.apps.gatekeeper.injector.module;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
