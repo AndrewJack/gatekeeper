@@ -1,0 +1,148 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+def enableFabric = file('fabric.properties').exists()
+if (enableFabric) {
+    apply plugin: 'io.fabric'
+}
+
+android {
+    compileSdkVersion compileSdk
+    buildToolsVersion buildTools
+
+    defaultConfig {
+        applicationId "technology.mainthread.apps.gatekeeper"
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+        versionCode versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+        buildConfigField 'boolean', 'ENABLE_FABRIC', "false"
+        buildConfigField 'String', 'PARTICLE_AUTH', appProps["particle_auth"] != null ? "\"${appProps['particle_auth']}\"" : "\"Authorization: particle-auth\""
+        resValue 'string', 'particle_device', appProps["particle_device"] != null ? appProps["particle_device"] : ''
+        resValue 'string', 'firebase_endpoint', appProps["firebase_endpoint"] != null ? appProps["firebase_endpoint"] : 'https://app-name.firebase.com'
+        resValue 'string', 'firebase_secret', appProps["firebase_secret"] != null ? appProps["firebase_secret"] : ''
+
+        resConfigs "en"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    signingConfigs {
+        if (keyPropsDebug["store"] != null) {
+            debug {
+                storeFile keyPropsDebug["store"] != null ? file(keyPropsDebug["store"]) : null
+                keyAlias keyPropsDebug["alias"] ?: ""
+                storePassword keyPropsDebug["storePass"] ?: ""
+                keyPassword keyPropsDebug["pass"] ?: ""
+            }
+        }
+
+        release {
+            storeFile keyPropsRelease["store"] != null ? file(keyPropsRelease["store"]) : null
+            keyAlias keyPropsRelease["alias"] ?: ""
+            storePassword keyPropsRelease["storePass"] ?: ""
+            keyPassword keyPropsRelease["pass"] ?: ""
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            versionNameSuffix '_debug_' + gitSha()
+            applicationIdSuffix '.debug'
+            versionNameSuffix " debug"
+            resValue "string", "app_name", "Gatekeeper debug"
+            ext.enableCrashlytics = false
+        }
+        release {
+            if (keyPropsRelease["store"] != null) {
+                signingConfig signingConfigs.release
+            }
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "app_name", "Gatekeeper"
+            buildConfigField 'boolean', 'ENABLE_FABRIC', "${enableFabric}"
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+    }
+}
+
+dependencies {
+
+    // Dagger 2
+    compile "com.google.dagger:dagger:${daggerVersion}"
+    apt "com.google.dagger:dagger-compiler:${daggerVersion}"
+    provided "javax.annotation:jsr250-api:1.0"
+
+    // Play Services
+    compile "com.google.android.gms:play-services-gcm:${commonPlayServicesVersion}"
+
+    // Android support libraries
+    compile "com.android.support:support-v4:${commonSupportLibraryVersion}"
+    compile "com.android.support:support-v13:${commonSupportLibraryVersion}"
+    compile "com.android.support:appcompat-v7:${commonSupportLibraryVersion}"
+    compile "com.android.support:recyclerview-v7:${commonSupportLibraryVersion}"
+    compile "com.android.support:cardview-v7:${commonSupportLibraryVersion}"
+    compile "com.android.support:design:${commonSupportLibraryVersion}"
+    compile "com.android.support:preference-v7:${commonSupportLibraryVersion}"
+
+    // rx
+    compile 'io.reactivex:rxjava:1.1.3'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'com.trello:rxlifecycle:0.5.0'
+    compile 'com.trello:rxlifecycle-components:0.5.0'
+
+    // Crash logs
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
+
+    // Networking
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.squareup.retrofit2:converter-moshi:2.0.2'
+    compile 'com.squareup.moshi:moshi:1.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+
+    // Autovalue
+    apt 'com.google.auto.value:auto-value:1.2'
+    provided 'com.google.auto.value:auto-value:1.2'
+    apt 'com.ryanharter.auto.value:auto-value-moshi:0.2.2'
+
+    // Firebase
+    compile 'com.firebase:firebase-client-android:2.5.2'
+    compile 'com.firebaseui:firebase-ui:0.3.1'
+
+    // Other
+    compile 'com.jakewharton.timber:timber:4.1.2'
+    compile('de.psdev.licensesdialog:licensesdialog:1.8.0') { exclude module: 'support-v4' }
+
+    // Debug tools
+    debugCompile 'com.facebook.stetho:stetho:1.3.1'
+    debugCompile 'com.facebook.stetho:stetho-okhttp3:1.3.1'
+
+    // Test
+    testCompile 'junit:junit:4.12'
+}
+
+if (file("${rootProject.rootDir}/.secrets/google-services").exists()) {
+    apply plugin: 'com.google.gms.google-services'
+    apply from: '../config/google-services-fix.gradle'
+}
+apply from: '../config/static-analysis.gradle'

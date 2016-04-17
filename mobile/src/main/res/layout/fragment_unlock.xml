@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="technology.mainthread.apps.gatekeeper.viewModel.UnlockFragmentViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/icon_device_status"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@android:color/holo_green_light"
+                    bind:statusColor="@{viewModel.deviceStatus}" />
+
+                <TextView
+                    android:id="@+id/txt_device_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    bind:statusText="@{viewModel.deviceStatus}"
+                    tools:text="Online" />
+            </FrameLayout>
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.loading ? View.VISIBLE : View.INVISIBLE}" />
+
+            <Button
+                android:id="@+id/btn_unlock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="@{!viewModel.loading}"
+                android:onClick="@{viewModel.onUnlockClicked}"
+                android:text="@string/btn_title_unlock" />
+
+            <Button
+                android:id="@+id/btn_prime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:enabled="@{!viewModel.loading}"
+                android:onClick="@{viewModel.onPrimeClicked}"
+                android:text="@string/btn_title_prime" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

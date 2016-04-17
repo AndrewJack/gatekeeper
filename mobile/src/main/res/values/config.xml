@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="particle_endpoint">https://api.particle.io/v1/devices/%s/</string>
+</resources>

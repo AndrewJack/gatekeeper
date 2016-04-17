@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/pref_group_title_gcm">
+
+        <PreferenceScreen
+            android:key="pref_gcm_token"
+            android:title="@string/pref_title_gcm_token"
+            android:summary="@string/pref_summary_gcm_token" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_group_title_notifications">
+
+        <ListPreference
+            android:key="pref_vibrate_tune"
+            android:summary="%s"
+            android:title="@string/pref_title_vibrate_tune"
+            android:defaultValue="STANDARD"
+            android:entries="@array/pref_entries_vibrate_tunes"
+            android:entryValues="@array/pref_entry_values_vibrate_tunes" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_group_title_about">
+
+        <PreferenceScreen
+            android:key="pref_licenses"
+            android:title="@string/pref_title_licenses" />
+
+        <PreferenceScreen
+            android:key="pref_build"
+            android:title="@string/pref_title_build" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
