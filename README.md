@@ -73,7 +73,7 @@ To setup cloud messaging follow the guide in the Google developers documentation
 https://developers.google.com/cloud-messaging/android/start
 
 Once you have a configuration file for release and debug (if you want a different AppId for debug).
-Add them to `.secrets/google-services/release/google-services.json` & `.secrets/google-services/debug/google-services.json`
+Add them to `mobile/src/debug/google-services.json` & `mobile/src/release/google-services.json`
 
 #### Fabric (Optional)
 

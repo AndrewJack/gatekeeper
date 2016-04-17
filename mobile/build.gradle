@@ -141,8 +141,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-if (file("${rootProject.rootDir}/.secrets/google-services").exists()) {
+if (file("src/debug/google-services.json").exists() && file("src/release/google-services.json").exists()) {
     apply plugin: 'com.google.gms.google-services'
-    apply from: '../config/google-services-fix.gradle'
 }
 apply from: '../config/static-analysis.gradle'

@@ -44,6 +44,6 @@ mobile/google-services.json
 
 ## secrets
 /.secrets/props/*.properties
-/.secrets/google-services
+google-services.json
 fabric.properties
 *.keystore
