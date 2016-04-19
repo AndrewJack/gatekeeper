@@ -1,6 +1,7 @@
 package technology.mainthread.apps.gatekeeper.injector.graph;
 
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
+import technology.mainthread.apps.gatekeeper.service.MobileWearListenerService;
 import technology.mainthread.apps.gatekeeper.service.gcm.GatekeeperGcmListenerService;
 import technology.mainthread.apps.gatekeeper.service.gcm.RegistrationIntentService;
 import technology.mainthread.apps.gatekeeper.service.GatekeeperIntentService;
@@ -26,4 +27,5 @@ public interface AppGraph {
 
     void inject(PrimeWidgetService primeWidgetService);
 
+    void inject(MobileWearListenerService mobileWearListenerService);
 }

@@ -84,6 +84,12 @@ android {
 
 dependencies {
 
+    // Local
+    compile project(':common')
+
+    // Android Wear
+    wearApp project(':wear')
+
     // Dagger 2
     compile "com.google.dagger:dagger:${daggerVersion}"
     apt "com.google.dagger:dagger-compiler:${daggerVersion}"
@@ -91,6 +97,7 @@ dependencies {
 
     // Play Services
     compile "com.google.android.gms:play-services-gcm:${commonPlayServicesVersion}"
+    compile "com.google.android.gms:play-services-wearable:${commonPlayServicesVersion}"
 
     // Android support libraries
     compile "com.android.support:support-v4:${commonSupportLibraryVersion}"
@@ -130,6 +137,7 @@ dependencies {
     compile 'com.firebaseui:firebase-ui:0.3.1'
 
     // Other
+    compile 'com.squareup.okio:okio:1.7.0'
     compile 'com.jakewharton.timber:timber:4.1.2'
     compile('de.psdev.licensesdialog:licensesdialog:1.8.0') { exclude module: 'support-v4' }
 

@@ -21,7 +21,7 @@ import technology.mainthread.apps.gatekeeper.data.service.RxDeviceState;
 import technology.mainthread.apps.gatekeeper.model.event.AppEventType;
 import technology.mainthread.apps.gatekeeper.model.particle.DeviceAction;
 import technology.mainthread.apps.gatekeeper.model.event.GatekeeperState;
-import technology.mainthread.apps.gatekeeper.util.RxSchedulerUtil;
+import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 import technology.mainthread.apps.gatekeeper.view.NotifierHelper;
 import timber.log.Timber;
 
@@ -96,7 +96,7 @@ public class GatekeeperIntentService extends Service {
 
     private void checkGatekeeperState() {
         Subscription subscription = rxDeviceState.gatekeeperStateObservable()
-                .compose(RxSchedulerUtil.applySchedulers())
+                .compose(RxSchedulerHelper.applySchedulers())
                 .subscribe(new Subscriber<String>() {
                     @Override public void onCompleted() {
 
@@ -124,7 +124,7 @@ public class GatekeeperIntentService extends Service {
         notifierHelper.onUnlockPressed();
 
         Subscription subscription = gatekeeperService.unlock()
-                .compose(RxSchedulerUtil.applySchedulers())
+                .compose(RxSchedulerHelper.applySchedulers())
                 .subscribe(new Subscriber<Response<DeviceAction>>() {
                     @Override public void onCompleted() {
                         // NO_OP
@@ -156,7 +156,7 @@ public class GatekeeperIntentService extends Service {
         notifierHelper.onPrimePressed();
 
         Subscription subscription = gatekeeperService.prime()
-                .compose(RxSchedulerUtil.applySchedulers())
+                .compose(RxSchedulerHelper.applySchedulers())
                 .subscribe(new Subscriber<Response<DeviceAction>>() {
                     @Override public void onCompleted() {
                         // NO_OP

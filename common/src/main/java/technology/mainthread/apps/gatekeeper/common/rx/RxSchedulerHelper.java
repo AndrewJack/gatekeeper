@@ -1,12 +1,12 @@
-package technology.mainthread.apps.gatekeeper.util;
+package technology.mainthread.apps.gatekeeper.common.rx;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class RxSchedulerUtil {
+public class RxSchedulerHelper {
 
-    private RxSchedulerUtil() {
+    private RxSchedulerHelper() {
     }
 
     // http://blog.danlew.net/2015/03/02/dont-break-the-chain/

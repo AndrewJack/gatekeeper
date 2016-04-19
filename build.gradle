@@ -7,10 +7,10 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0-beta1'
+        classpath 'com.android.tools.build:gradle:2.1.0-beta3'
         classpath 'com.google.gms:google-services:2.1.0-beta1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+        classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
         //noinspection GradleDynamicVersion
         classpath 'io.fabric.tools:gradle:1.+'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.12.0'
@@ -76,8 +76,8 @@ subprojects {
         }
 
         versionMajor = 1
-        versionMinor = 0
-        versionPatch = 1
+        versionMinor = 1
+        versionPatch = 0
         versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
         targetSdk = 23

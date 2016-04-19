@@ -14,7 +14,7 @@ import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.data.AppStateController;
 import technology.mainthread.apps.gatekeeper.data.service.GatekeeperService;
 import technology.mainthread.apps.gatekeeper.service.GatekeeperIntentService;
-import technology.mainthread.apps.gatekeeper.util.RxSchedulerUtil;
+import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 
 public class PrimeWidgetService extends Service {
 
@@ -37,7 +37,7 @@ public class PrimeWidgetService extends Service {
         GatekeeperApp.get(this).inject(this);
 
         subscription = appStateController.getObservable()
-                .compose(RxSchedulerUtil.applySchedulers())
+                .compose(RxSchedulerHelper.applySchedulers())
                 .subscribe(event -> widgetViewModel.updateWidgetState(event.gatekeeperState()));
     }
 

@@ -11,8 +11,8 @@ import com.trello.rxlifecycle.components.support.RxFragment;
 
 import javax.inject.Inject;
 
-import technology.mainthread.apps.gatekeeper.data.AppStateController;
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
+import technology.mainthread.apps.gatekeeper.data.AppStateController;
 import technology.mainthread.apps.gatekeeper.databinding.FragmentUnlockBinding;
 import technology.mainthread.apps.gatekeeper.viewModel.UnlockFragmentViewModel;
 

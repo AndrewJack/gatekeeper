@@ -25,17 +25,19 @@
             </intent-filter>
         </activity>
 
-        <!--GCM-->
+        <!-- GCM -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="gcm.play.android.samples.com.gcmquickstart" />
             </intent-filter>
         </receiver>
 
+        <!-- Services -->
         <service
             android:name=".service.gcm.GatekeeperGcmListenerService"
             android:exported="false">
@@ -43,7 +45,6 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
-
         <service
             android:name=".service.gcm.GatekeeperInstanceIDListenerService"
             android:exported="false">
@@ -51,16 +52,22 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-
         <service
             android:name=".service.gcm.RegistrationIntentService"
             android:exported="false" />
-
         <service
             android:name=".service.GatekeeperIntentService"
             android:exported="false" />
 
-        <!--Widget-->
+        <service
+            android:name=".service.MobileWearListenerService">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/gatekeeper" />
+            </intent-filter>
+        </service>
+
+        <!-- Widget -->
         <receiver
             android:name=".view.widget.PrimeWidgetProvider"
             android:icon="@mipmap/ic_launcher"
@@ -77,7 +84,6 @@
         <service
             android:name=".view.widget.PrimeWidgetService"
             android:exported="false" />
-
     </application>
 
 </manifest>

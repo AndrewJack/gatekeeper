@@ -17,7 +17,8 @@ dependencies:
 
 test:
     override:
-        - ./gradlew mobile:build -PdisablePreDex --stacktrace
+        - case $CIRCLE_NODE_INDEX in 0) ./gradlew checkstyle findbugs pmd -PdisablePreDex --stacktrace ;; 1) ./gradlew test -PdisablePreDex --stacktrace ;; 2) ./gradlew assembleDebug -PdisablePreDex --stacktrace ;; 3) ./gradlew assembleRelease -PdisablePreDex --stacktrace ;; esac:
+                parallel: true
     post:
         # Apks
         - mkdir -p $CIRCLE_ARTIFACTS/apk && find . -type f -regex ".*mobile/build/outputs/apk/.*apk" -exec cp {} $CIRCLE_ARTIFACTS/apk/ \;

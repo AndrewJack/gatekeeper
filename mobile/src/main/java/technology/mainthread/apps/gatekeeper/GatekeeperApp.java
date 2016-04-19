@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.beta.Beta;
 import com.firebase.client.Config;
 import com.firebase.client.Firebase;
 import com.firebase.client.Logger;
@@ -23,7 +24,7 @@ import technology.mainthread.apps.gatekeeper.service.gcm.RegistrationIntentServi
 import technology.mainthread.apps.gatekeeper.util.StethoUtil;
 import timber.log.Timber;
 
-import static technology.mainthread.apps.gatekeeper.util.RxSchedulerUtil.applySchedulers;
+import static technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper.applySchedulers;
 
 public class GatekeeperApp extends Application {
 
@@ -42,7 +43,7 @@ public class GatekeeperApp extends Application {
         component.inject(this);
 
         if (BuildConfig.ENABLE_FABRIC) {
-            Fabric.with(this, new Crashlytics());
+            Fabric.with(this, new Crashlytics(), new Beta());
         }
         Timber.plant(BuildConfig.ENABLE_FABRIC ? new CrashlyticsTree() : new Timber.DebugTree());
 

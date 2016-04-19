@@ -13,7 +13,7 @@ import technology.mainthread.apps.gatekeeper.data.AppStateController;
 import technology.mainthread.apps.gatekeeper.model.particle.DeviceStatus;
 import technology.mainthread.apps.gatekeeper.model.event.AppEvent;
 import technology.mainthread.apps.gatekeeper.model.event.AppEventType;
-import technology.mainthread.apps.gatekeeper.util.RxSchedulerUtil;
+import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 
 import static technology.mainthread.apps.gatekeeper.service.GatekeeperIntentService.getCheckGatekeeperStateIntent;
 import static technology.mainthread.apps.gatekeeper.service.GatekeeperIntentService.getPrimeGatekeeperIntent;
@@ -46,7 +46,7 @@ public class UnlockFragmentViewModel extends BaseObservable {
     public void initialize() {
         appStateController.getObservable()
                 .compose(lifecycleTransformer)
-                .compose(RxSchedulerUtil.<DeviceStatus>applySchedulers())
+                .compose(RxSchedulerHelper.<DeviceStatus>applySchedulers())
                 .subscribe(event -> onAppEvent((technology.mainthread.apps.gatekeeper.model.event.AppEvent) event));
 
         deviceStatus.set(appStateController.getLastKnownGatekeeperState());
