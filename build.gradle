@@ -77,7 +77,7 @@ subprojects {
 
         versionMajor = 1
         versionMinor = 1
-        versionPatch = 0
+        versionPatch = 1
         versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
         targetSdk = 23
