@@ -76,8 +76,8 @@ subprojects {
         }
 
         versionMajor = 1
-        versionMinor = 1
-        versionPatch = 1
+        versionMinor = 2
+        versionPatch = 0
         versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
         targetSdk = 23
@@ -85,7 +85,7 @@ subprojects {
         minSdk = 21
         buildTools = "23.0.3"
         commonPlayServicesVersion = '8.4.0'
-        commonSupportLibraryVersion = '23.3.0'
+        commonSupportLibraryVersion = '23.4.0'
         daggerVersion = '2.2'
     }
 }
