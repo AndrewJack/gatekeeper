@@ -130,7 +130,7 @@ dependencies {
     // Autovalue
     apt 'com.google.auto.value:auto-value:1.2'
     provided 'com.google.auto.value:auto-value:1.2'
-    apt 'com.ryanharter.auto.value:auto-value-moshi:0.3.0'
+    apt 'com.ryanharter.auto.value:auto-value-moshi:0.2.2'
 
     // Firebase
     compile 'com.firebase:firebase-client-android:2.5.2'

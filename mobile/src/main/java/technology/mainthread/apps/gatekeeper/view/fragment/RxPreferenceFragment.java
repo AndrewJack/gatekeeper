@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.trello.rxlifecycle.FragmentEvent;
 import com.trello.rxlifecycle.FragmentLifecycleProvider;
+import com.trello.rxlifecycle.LifecycleTransformer;
 import com.trello.rxlifecycle.RxLifecycle;
 
 import rx.Observable;
@@ -28,14 +29,14 @@ public abstract class RxPreferenceFragment extends PreferenceFragmentCompat impl
     @Override
     @NonNull
     @CheckResult
-    public final <T> Observable.Transformer<T, T> bindUntilEvent(@NonNull FragmentEvent event) {
+    public final <T> LifecycleTransformer<T> bindUntilEvent(@NonNull FragmentEvent event) {
         return RxLifecycle.bindUntilEvent(lifecycleSubject, event);
     }
 
     @Override
     @NonNull
     @CheckResult
-    public final <T> Observable.Transformer<T, T> bindToLifecycle() {
+    public final <T> LifecycleTransformer<T> bindToLifecycle() {
         return RxLifecycle.bindFragment(lifecycleSubject);
     }
 
