@@ -15,13 +15,13 @@ import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.R;
+import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 import technology.mainthread.apps.gatekeeper.data.AppStateController;
 import technology.mainthread.apps.gatekeeper.data.service.GatekeeperService;
 import technology.mainthread.apps.gatekeeper.data.service.RxDeviceState;
 import technology.mainthread.apps.gatekeeper.model.event.AppEventType;
-import technology.mainthread.apps.gatekeeper.model.particle.DeviceAction;
 import technology.mainthread.apps.gatekeeper.model.event.GatekeeperState;
-import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
+import technology.mainthread.apps.gatekeeper.model.particle.DeviceAction;
 import technology.mainthread.apps.gatekeeper.view.NotifierHelper;
 import timber.log.Timber;
 
@@ -176,11 +176,13 @@ public class GatekeeperIntentService extends Service {
                                 checkGatekeeperStateInFuture(TIME_UNTIL_PRIME_EXPIRED);
                             } else { // Device failure
                                 appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_prime_fail);
-                                checkGatekeeperStateInFuture(30 * 1000);
+                                notifierHelper.notifySystemPrimed(false);
+                                checkGatekeeperStateInFuture(10000);
                             }
                         } else {
                             appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_prime_fail);
-                            checkGatekeeperStateInFuture(30 * 1000);
+                            notifierHelper.notifySystemPrimed(false);
+                            checkGatekeeperStateInFuture(10000);
                         }
                     }
                 });

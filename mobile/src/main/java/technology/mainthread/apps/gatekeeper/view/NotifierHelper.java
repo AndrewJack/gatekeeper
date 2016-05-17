@@ -125,7 +125,7 @@ public class NotifierHelper {
     }
 
     public void notifySystemPrimed(boolean success) {
-        Notification notification = getBaseNotification().setContentTitle(success ? "System Primed!" : "Not primed").build();
+        Notification notification = getBaseNotification().setContentTitle(success ? "System Primed!" : "Prime failed :(").build();
         notificationManager.notify(ID_PRIMED, notification);
     }
 
