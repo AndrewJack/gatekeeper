@@ -22,16 +22,16 @@ public class LogsFragmentViewModel extends BaseObservable {
     private final DatabaseReference events;
 
     @Inject
-    public LogsFragmentViewModel(Context context, DatabaseReference firebase) {
+    LogsFragmentViewModel(Context context, DatabaseReference firebase) {
         this.context = context;
-        this.events = firebase.child("events");
+        this.events = firebase.child("door-events");
     }
 
     public void initialize(RecyclerView logsRecyclerView) {
         Timber.d("init");
         logsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         logsRecyclerView.setHasFixedSize(true);
-        Query query = events.orderByValue().limitToLast(100);
+        Query query = events.orderByChild("timestamp").limitToLast(100);
         LogsAdapter logsAdapter = new LogsAdapter(EventLog.class, R.layout.item_log, LogsViewHolder.class, query);
         logsRecyclerView.setAdapter(logsAdapter);
     }

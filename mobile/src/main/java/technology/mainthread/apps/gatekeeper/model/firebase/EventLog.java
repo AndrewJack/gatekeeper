@@ -3,15 +3,19 @@ package technology.mainthread.apps.gatekeeper.model.firebase;
 public class EventLog {
 
     private String name;
+    private long timestamp;
     private String source;
     private String value;
-    private String published;
 
     public EventLog() {
     }
 
     public String getName() {
         return name;
+    }
+
+    public long getTimestamp() {
+        return timestamp * -1L;
     }
 
     public String getSource() {
@@ -22,18 +26,13 @@ public class EventLog {
         return value;
     }
 
-    public String getPublished() {
-        return published;
-    }
-
     @Override
     public String toString() {
         return "EventLog{" +
                 "name='" + name + '\'' +
+                ", timestamp=" + timestamp +
                 ", source='" + source + '\'' +
                 ", value='" + value + '\'' +
-                ", published='" + published + '\'' +
                 '}';
     }
-
 }

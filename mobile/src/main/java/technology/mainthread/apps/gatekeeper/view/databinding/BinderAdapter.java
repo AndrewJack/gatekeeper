@@ -8,15 +8,10 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.model.event.GatekeeperState;
-import timber.log.Timber;
 
 public class BinderAdapter {
 
@@ -24,20 +19,10 @@ public class BinderAdapter {
     }
 
     @BindingAdapter({"bind:datetime"})
-    public static void setFormattedDateTime(TextView textView, String datetime) {
-        if (datetime == null || datetime.isEmpty()) {
-            return;
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS", Locale.UK);
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        try {
-            Date date = sdf.parse(datetime);
-            CharSequence relativeTimeSpanString = DateUtils.getRelativeTimeSpanString(date.getTime());
-            textView.setText(relativeTimeSpanString);
-        } catch (ParseException e) {
-            Timber.e(e, "Date parse exception");
-        }
+    public static void setFormattedDateTime(TextView textView, long timestamp) {
+        Date date = new Date(timestamp);
+        CharSequence relativeTimeSpanString = DateUtils.getRelativeTimeSpanString(date.getTime());
+        textView.setText(relativeTimeSpanString);
     }
 
     @BindingAdapter({"bind:formatEvent"})
