@@ -25,36 +25,22 @@
             </intent-filter>
         </activity>
 
-        <!-- GCM -->
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-
-                <category android:name="gcm.play.android.samples.com.gcmquickstart" />
-            </intent-filter>
-        </receiver>
-
-        <!-- Services -->
+        <!--Cloud Messaging - Firebase-->
         <service
-            android:name=".service.gcm.GatekeeperGcmListenerService"
-            android:exported="false">
+            android:name=".service.MessagingService">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
         <service
-            android:name=".service.gcm.GatekeeperInstanceIDListenerService"
-            android:exported="false">
+            android:name=".service.MessagingInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
-        <service
-            android:name=".service.gcm.RegistrationIntentService"
-            android:exported="false" />
+
+        <!--Services-->
         <service
             android:name=".service.GatekeeperIntentService"
             android:exported="false" />

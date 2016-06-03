@@ -5,8 +5,8 @@ import android.databinding.BaseObservable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.firebase.client.Firebase;
-import com.firebase.client.Query;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 
 import javax.inject.Inject;
 
@@ -19,10 +19,10 @@ import timber.log.Timber;
 public class LogsFragmentViewModel extends BaseObservable {
 
     private final Context context;
-    private final Firebase events;
+    private final DatabaseReference events;
 
     @Inject
-    public LogsFragmentViewModel(Context context, Firebase firebase) {
+    public LogsFragmentViewModel(Context context, DatabaseReference firebase) {
         this.context = context;
         this.events = firebase.child("events");
     }

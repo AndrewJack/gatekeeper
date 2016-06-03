@@ -19,10 +19,8 @@ android {
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
         buildConfigField 'boolean', 'ENABLE_FABRIC', "false"
-        buildConfigField 'String', 'PARTICLE_AUTH', appProps["particle_auth"] != null ? "\"${appProps['particle_auth']}\"" : "\"Authorization: particle-auth\""
+        resValue 'string', 'particle_auth', appProps["particle_auth"] != null ? appProps['particle_auth'] : "Authorization: particle-auth"
         resValue 'string', 'particle_device', appProps["particle_device"] != null ? appProps["particle_device"] : ''
-        resValue 'string', 'firebase_endpoint', appProps["firebase_endpoint"] != null ? appProps["firebase_endpoint"] : 'https://app-name.firebase.com'
-        resValue 'string', 'firebase_secret', appProps["firebase_secret"] != null ? appProps["firebase_secret"] : ''
 
         resConfigs "en"
     }
@@ -96,7 +94,6 @@ dependencies {
     provided "javax.annotation:jsr250-api:1.0"
 
     // Play Services
-    compile "com.google.android.gms:play-services-gcm:${commonPlayServicesVersion}"
     compile "com.google.android.gms:play-services-wearable:${commonPlayServicesVersion}"
 
     // Android support libraries
@@ -123,9 +120,9 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
     compile 'com.squareup.retrofit2:converter-moshi:2.0.2'
-    compile 'com.squareup.moshi:moshi:1.1.0'
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    compile 'com.squareup.moshi:moshi:1.2.0'
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
 
     // Autovalue
     apt 'com.google.auto.value:auto-value:1.2'
@@ -133,8 +130,13 @@ dependencies {
     apt 'com.ryanharter.auto.value:auto-value-moshi:0.2.2'
 
     // Firebase
-    compile 'com.firebase:firebase-client-android:2.5.2'
-    compile 'com.firebaseui:firebase-ui:0.3.1'
+    compile "com.google.firebase:firebase-core:${commonPlayServicesVersion}"
+    compile "com.google.firebase:firebase-analytics:${commonPlayServicesVersion}"
+    compile "com.google.firebase:firebase-config:${commonPlayServicesVersion}"
+    compile "com.google.firebase:firebase-database:${commonPlayServicesVersion}"
+    compile "com.google.firebase:firebase-auth:${commonPlayServicesVersion}"
+    compile "com.google.firebase:firebase-messaging:${commonPlayServicesVersion}"
+    compile 'com.firebaseui:firebase-ui-database:0.4.0'
 
     // Other
     compile 'com.squareup.okio:okio:1.8.0'

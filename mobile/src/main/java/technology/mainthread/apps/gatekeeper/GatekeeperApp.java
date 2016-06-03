@@ -2,25 +2,27 @@ package technology.mainthread.apps.gatekeeper;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.util.ArrayMap;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.beta.Beta;
-import com.firebase.client.Config;
-import com.firebase.client.Firebase;
-import com.firebase.client.Logger;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Logger;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import io.fabric.sdk.android.Fabric;
 import rx.Observable;
 import technology.mainthread.apps.gatekeeper.data.CrashlyticsTree;
-import technology.mainthread.apps.gatekeeper.data.preferences.GcmPreferences;
+import technology.mainthread.apps.gatekeeper.data.RemoteConfigKeys;
 import technology.mainthread.apps.gatekeeper.injector.component.AppComponent;
-import technology.mainthread.apps.gatekeeper.service.gcm.RegistrationIntentService;
 import technology.mainthread.apps.gatekeeper.util.StethoUtil;
 import timber.log.Timber;
 
@@ -53,19 +55,36 @@ public class GatekeeperApp extends Application {
 
         checkGooglePlayServices();
 
-        if (sharedPreferences.getString(GcmPreferences.GCM_TOKEN, null) == null) {
-            startService(new Intent(this, RegistrationIntentService.class));
-        }
     }
 
     private Void setupFirebase() {
-        Config config = new Config();
-        config.setPersistenceEnabled(true);
-        config.setLogLevel(BuildConfig.DEBUG ? Logger.Level.DEBUG : Logger.Level.NONE);
-        Firebase.setDefaultConfig(config);
+        Timber.d("Setup firebase");
+        FirebaseDatabase instance = FirebaseDatabase.getInstance();
+        instance.setPersistenceEnabled(true);
+        instance.setLogLevel(BuildConfig.DEBUG ? Logger.Level.DEBUG : Logger.Level.NONE);
 
-        Firebase.setAndroidContext(getApplicationContext());
+        FirebaseRemoteConfig config = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .build();
+        config.setConfigSettings(configSettings);
+        config.setDefaults(getDefaultsConfig());
+
+        config.fetch().addOnCompleteListener(task -> {
+            Timber.d("Config fetched");
+            config.activateFetched();
+
+            Timber.d("App version %s", config.getString(RemoteConfigKeys.APP_VERSION));
+        });
         return null;
+    }
+
+    private Map<String, Object> getDefaultsConfig() {
+        Map<String, Object> map = new ArrayMap<>();
+        map.put(RemoteConfigKeys.PARTICLE_AUTH, getString(R.string.particle_auth));
+        map.put(RemoteConfigKeys.PARTICLE_DEVICE, getString(R.string.particle_device));
+        map.put(RemoteConfigKeys.APP_VERSION, "-1");
+        return map;
     }
 
     private void checkGooglePlayServices() {

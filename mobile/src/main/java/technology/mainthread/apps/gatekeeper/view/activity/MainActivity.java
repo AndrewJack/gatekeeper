@@ -11,6 +11,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.databinding.ActivityMainBinding;
 import technology.mainthread.apps.gatekeeper.view.fragment.LogsFragment;
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setViewModel(new MainActivityViewModel());
+
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
+        analytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, new Bundle());
 
         setSupportActionBar(binding.toolbar);
 

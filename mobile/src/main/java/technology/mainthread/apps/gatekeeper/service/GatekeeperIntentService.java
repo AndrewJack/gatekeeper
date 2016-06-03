@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+
 import javax.inject.Inject;
 
 import retrofit2.Response;
@@ -17,6 +19,7 @@ import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 import technology.mainthread.apps.gatekeeper.data.AppStateController;
+import technology.mainthread.apps.gatekeeper.data.RemoteConfigKeys;
 import technology.mainthread.apps.gatekeeper.data.service.GatekeeperService;
 import technology.mainthread.apps.gatekeeper.data.service.RxDeviceState;
 import technology.mainthread.apps.gatekeeper.model.event.AppEventType;
@@ -43,6 +46,8 @@ public class GatekeeperIntentService extends Service {
     NotifierHelper notifierHelper;
     @Inject
     AppStateController appStateController;
+    @Inject
+    FirebaseRemoteConfig config;
 
     private CompositeSubscription cs = new CompositeSubscription();
     private Handler handler = new Handler();
@@ -123,7 +128,7 @@ public class GatekeeperIntentService extends Service {
         appStateController.onAppEvent(AppEventType.UNLOCKING, false, R.string.event_unlock_in_progress);
         notifierHelper.onUnlockPressed();
 
-        Subscription subscription = gatekeeperService.unlock()
+        Subscription subscription = gatekeeperService.unlock(config.getString(RemoteConfigKeys.PARTICLE_AUTH))
                 .compose(RxSchedulerHelper.applySchedulers())
                 .subscribe(new Subscriber<Response<DeviceAction>>() {
                     @Override public void onCompleted() {
@@ -155,7 +160,7 @@ public class GatekeeperIntentService extends Service {
         appStateController.onAppEvent(AppEventType.PRIMING, false, R.string.event_prime_in_progress);
         notifierHelper.onPrimePressed();
 
-        Subscription subscription = gatekeeperService.prime()
+        Subscription subscription = gatekeeperService.prime(config.getString(RemoteConfigKeys.PARTICLE_AUTH))
                 .compose(RxSchedulerHelper.applySchedulers())
                 .subscribe(new Subscriber<Response<DeviceAction>>() {
                     @Override public void onCompleted() {

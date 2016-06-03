@@ -2,9 +2,9 @@ package technology.mainthread.apps.gatekeeper.injector.module;
 
 import android.content.res.Resources;
 
-import com.firebase.client.AuthData;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.squareup.moshi.Moshi;
 
 import javax.inject.Singleton;
@@ -18,12 +18,12 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 import technology.mainthread.apps.gatekeeper.BuildConfig;
 import technology.mainthread.apps.gatekeeper.R;
+import technology.mainthread.apps.gatekeeper.data.RemoteConfigKeys;
 import technology.mainthread.apps.gatekeeper.data.service.GatekeeperService;
 import technology.mainthread.apps.gatekeeper.model.particle.CoreInfo;
 import technology.mainthread.apps.gatekeeper.model.particle.DeviceAction;
 import technology.mainthread.apps.gatekeeper.model.particle.DeviceStatus;
 import technology.mainthread.apps.gatekeeper.util.StethoUtil;
-import timber.log.Timber;
 
 @Module
 public class NetworkModule {
@@ -57,10 +57,10 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    GatekeeperService provideGatekeeperService(OkHttpClient okHttpClient, Moshi moshi) {
+    GatekeeperService provideGatekeeperService(OkHttpClient okHttpClient, Moshi moshi, FirebaseRemoteConfig config) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl(resources.getString(R.string.particle_endpoint, resources.getString(R.string.particle_device)))
+                .baseUrl(resources.getString(R.string.particle_endpoint, config.getString(RemoteConfigKeys.PARTICLE_DEVICE)))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .build();
@@ -69,24 +69,13 @@ public class NetworkModule {
     }
 
     @Provides
-    @Singleton
-    Firebase providesFirebase() {
-        Firebase firebase = new Firebase(resources.getString(R.string.firebase_endpoint));
-        String token = resources.getString(R.string.firebase_secret);
-        if (!token.isEmpty()) {
-            firebase.authWithCustomToken(token, new Firebase.AuthResultHandler() {
-                @Override
-                public void onAuthenticationError(FirebaseError error) {
-                    Timber.w("Login Failed! %s", error.getMessage());
-                }
+    DatabaseReference provideEventsDatabaseReference() {
+        return FirebaseDatabase.getInstance().getReference();
+    }
 
-                @Override
-                public void onAuthenticated(AuthData authData) {
-                    Timber.d("Login Succeeded!");
-                }
-            });
-        }
-        return firebase;
+    @Provides
+    FirebaseRemoteConfig provideFirebaseRemoteConfig() {
+        return FirebaseRemoteConfig.getInstance();
     }
 
 }

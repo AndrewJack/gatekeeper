@@ -1,14 +1,14 @@
 package technology.mainthread.apps.gatekeeper.injector.graph;
 
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
-import technology.mainthread.apps.gatekeeper.service.MobileWearListenerService;
-import technology.mainthread.apps.gatekeeper.service.gcm.GatekeeperGcmListenerService;
-import technology.mainthread.apps.gatekeeper.service.gcm.RegistrationIntentService;
 import technology.mainthread.apps.gatekeeper.service.GatekeeperIntentService;
-import technology.mainthread.apps.gatekeeper.view.widget.PrimeWidgetService;
+import technology.mainthread.apps.gatekeeper.service.MessagingInstanceIdService;
+import technology.mainthread.apps.gatekeeper.service.MessagingService;
+import technology.mainthread.apps.gatekeeper.service.MobileWearListenerService;
 import technology.mainthread.apps.gatekeeper.view.fragment.LogsFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.SettingsFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.UnlockFragment;
+import technology.mainthread.apps.gatekeeper.view.widget.PrimeWidgetService;
 
 public interface AppGraph {
     void inject(GatekeeperApp gatekeeperApp);
@@ -17,10 +17,6 @@ public interface AppGraph {
 
     void inject(SettingsFragment settingsFragment);
 
-    void inject(GatekeeperGcmListenerService gatekeeperGcmListenerService);
-
-    void inject(RegistrationIntentService registrationIntentService);
-
     void inject(GatekeeperIntentService gatekeeperIntentService);
 
     void inject(LogsFragment logsFragment);
@@ -28,4 +24,8 @@ public interface AppGraph {
     void inject(PrimeWidgetService primeWidgetService);
 
     void inject(MobileWearListenerService mobileWearListenerService);
+
+    void inject(MessagingInstanceIdService messagingInstanceIdService);
+
+    void inject(MessagingService messagingService);
 }
