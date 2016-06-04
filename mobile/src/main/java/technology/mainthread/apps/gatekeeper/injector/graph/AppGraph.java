@@ -5,6 +5,8 @@ import technology.mainthread.apps.gatekeeper.service.GatekeeperIntentService;
 import technology.mainthread.apps.gatekeeper.service.MessagingInstanceIdService;
 import technology.mainthread.apps.gatekeeper.service.MessagingService;
 import technology.mainthread.apps.gatekeeper.service.MobileWearListenerService;
+import technology.mainthread.apps.gatekeeper.view.activity.AuthActivity;
+import technology.mainthread.apps.gatekeeper.view.activity.MainActivity;
 import technology.mainthread.apps.gatekeeper.view.fragment.LogsFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.SettingsFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.UnlockFragment;
@@ -28,4 +30,8 @@ public interface AppGraph {
     void inject(MessagingInstanceIdService messagingInstanceIdService);
 
     void inject(MessagingService messagingService);
+
+    void inject(AuthActivity authActivity);
+
+    void inject(MainActivity mainActivity);
 }

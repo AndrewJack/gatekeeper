@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.Wearable;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -37,6 +38,15 @@ public class GoogleApiModule {
 
         return new GoogleApiClient.Builder(context)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+    }
+
+    @Provides
+    @Singleton
+    @Named("wear")
+    GoogleApiClient providesWearApiClient() {
+        return new GoogleApiClient.Builder(context)
+                .addApi(Wearable.API)
                 .build();
     }
 }

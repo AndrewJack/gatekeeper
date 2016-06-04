@@ -21,6 +21,8 @@ public interface AppComponent extends AppGraph {
                     .appModule(new AppModule(app))
                     .networkModule(new NetworkModule(app))
                     .androidServicesModule(new AndroidServicesModule(app))
+                    .googleApiModule(new GoogleApiModule(app))
+                    .firebaseModule(new FirebaseModule())
                     .build();
         }
 

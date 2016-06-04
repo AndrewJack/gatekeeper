@@ -14,12 +14,16 @@ import android.view.MenuItem;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
+import javax.inject.Inject;
+
+import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.databinding.ActivityMainBinding;
 import technology.mainthread.apps.gatekeeper.view.fragment.LogsFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.SettingsFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.UnlockFragment;
 import technology.mainthread.apps.gatekeeper.viewModel.MainActivityViewModel;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -27,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static String FRAG_UNLOCK = "unlock";
     public static String FRAG_LOGS = "logs";
     public static String FRAG_SETTINGS = "settings";
+
+    @Inject
+    FirebaseAuth firebaseAuth;
 
     private ActivityMainBinding binding;
     private ActionBarDrawerToggle toggle;
@@ -40,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GatekeeperApp.get(this).inject(this);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setViewModel(new MainActivityViewModel());
 
@@ -56,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.navView.setNavigationItemSelectedListener(this);
 
         // Authenticate if not signed in
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (firebaseAuth.getCurrentUser() == null) {
+            Timber.d("ajaj User not signed in");
             startActivity(AuthActivity.getIntent(this));
             finish();
             return;

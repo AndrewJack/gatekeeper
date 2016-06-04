@@ -2,17 +2,21 @@ package technology.mainthread.apps.gatekeeper.view.fragment;
 
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
 import de.psdev.licensesdialog.LicensesDialog;
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.R;
+import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 import technology.mainthread.apps.gatekeeper.data.AndroidAppInfo;
 import technology.mainthread.apps.gatekeeper.data.AuthManager;
 import technology.mainthread.apps.gatekeeper.data.VibratorTunes;
+import technology.mainthread.apps.gatekeeper.view.activity.AuthActivity;
 
 public class SettingsFragment extends RxPreferenceFragment {
 
@@ -42,11 +46,31 @@ public class SettingsFragment extends RxPreferenceFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findPreference("pref_sign_out").setOnPreferenceClickListener(preference -> {
-            authManager.signOut();
+            authManager.signOut()
+                    .compose(RxSchedulerHelper.applySchedulers())
+                    .compose(bindToLifecycle())
+                    .subscribe(success -> {
+                        if (success) {
+                            showToast(R.string.sign_out_success);
+                            onSignOutSuccess();
+                        } else {
+                            showToast(R.string.sign_out_failure);
+                        }
+                    });
             return true;
         });
         findPreference("pref_delete").setOnPreferenceClickListener(preference -> {
-            authManager.deleteAccount();
+            authManager.deleteAccount()
+                    .compose(RxSchedulerHelper.applySchedulers())
+                    .compose(bindToLifecycle())
+                    .subscribe(success -> {
+                        if (success) {
+                            showToast(R.string.delete_account_success);
+                            onSignOutSuccess();
+                        } else {
+                            showToast(R.string.delete_account_failure);
+                        }
+                    });
             return true;
         });
 
@@ -70,6 +94,15 @@ public class SettingsFragment extends RxPreferenceFragment {
         if (!isRemoving()) {
             new LicensesDialog.Builder(getActivity()).setNotices(R.raw.notices).setIncludeOwnLicense(true).build().show();
         }
+    }
+
+    private void showToast(@StringRes int message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void onSignOutSuccess() {
+        getActivity().startActivity(AuthActivity.getIntent(getActivity()));
+        getActivity().finish();
     }
 
 }

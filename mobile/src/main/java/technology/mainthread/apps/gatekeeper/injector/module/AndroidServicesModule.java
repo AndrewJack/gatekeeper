@@ -10,11 +10,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.wearable.Wearable;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -56,15 +51,6 @@ public class AndroidServicesModule {
     @Provides
     AppWidgetManager provideAppWidgetManager() {
         return AppWidgetManager.getInstance(context);
-    }
-
-    @Provides
-    @Singleton
-    @Named("wear")
-    GoogleApiClient providesWearApiClient() {
-        return new GoogleApiClient.Builder(context)
-                .addApi(Wearable.API)
-                .build();
     }
 
 }
