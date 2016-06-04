@@ -10,9 +10,11 @@
     <string name="btn_title_unlock">Unlock</string>
 
     <!--Preferences-->
-    <string name="pref_group_title_gcm">Cloud Messaging</string>
-    <string name="pref_title_gcm_token">GCM Token</string>
-    <string name="pref_summary_gcm_token">Press here to copy to clipboard</string>
+    <string name="pref_group_title_account">Account</string>
+    <string name="pref_title_sign_out">Sign out</string>
+    <string name="pref_summary_sign_out">Sign out of app</string>
+    <string name="pref_title_delete">Delete account</string>
+    <string name="pref_summary_delete">Completely remove account from Firebase</string>
 
     <string name="pref_group_title_notifications">Notifications</string>
     <string name="pref_title_vibrate_tune">Vibration tune</string>

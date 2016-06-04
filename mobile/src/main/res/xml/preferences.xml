@@ -2,12 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="@string/pref_group_title_gcm">
+        android:title="@string/pref_group_title_account">
 
         <PreferenceScreen
-            android:key="pref_gcm_token"
-            android:title="@string/pref_title_gcm_token"
-            android:summary="@string/pref_summary_gcm_token" />
+            android:key="pref_sign_out"
+            android:title="@string/pref_title_sign_out"
+            android:summary="@string/pref_summary_sign_out" />
+
+        <PreferenceScreen
+            android:key="pref_delete"
+            android:title="@string/pref_title_delete"
+            android:summary="@string/pref_summary_delete" />
 
     </PreferenceCategory>
 

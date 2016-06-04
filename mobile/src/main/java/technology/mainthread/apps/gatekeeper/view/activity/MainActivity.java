@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.databinding.ActivityMainBinding;
@@ -53,6 +54,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         binding.navView.setNavigationItemSelectedListener(this);
+
+        // Authenticate if not signed in
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startActivity(AuthActivity.getIntent(this));
+            finish();
+            return;
+        }
 
         if (getSupportFragmentManager().findFragmentById(R.id.content_main) == null) {
             String fragment = getIntent().getStringExtra(EXTRA_FRAGMENT);

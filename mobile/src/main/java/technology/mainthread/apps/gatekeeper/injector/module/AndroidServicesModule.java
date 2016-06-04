@@ -1,5 +1,6 @@
 package technology.mainthread.apps.gatekeeper.injector.module;
 
+import android.app.Application;
 import android.appwidget.AppWidgetManager;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -23,8 +24,8 @@ public class AndroidServicesModule {
 
     private final Context context;
 
-    public AndroidServicesModule(Context context) {
-        this.context = context;
+    public AndroidServicesModule(Application application) {
+        this.context = application.getApplicationContext();
     }
 
     @Provides

@@ -47,7 +47,7 @@ public class UnlockFragmentViewModel extends BaseObservable {
         appStateController.getObservable()
                 .compose(lifecycleTransformer)
                 .compose(RxSchedulerHelper.<DeviceStatus>applySchedulers())
-                .subscribe(event -> onAppEvent((technology.mainthread.apps.gatekeeper.model.event.AppEvent) event));
+                .subscribe(event -> onAppEvent((AppEvent) event));
 
         deviceStatus.set(appStateController.getLastKnownGatekeeperState());
         context.startService(getCheckGatekeeperStateIntent(context));

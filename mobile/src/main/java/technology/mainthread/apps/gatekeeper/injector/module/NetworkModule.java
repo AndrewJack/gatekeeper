@@ -1,9 +1,8 @@
 package technology.mainthread.apps.gatekeeper.injector.module;
 
+import android.app.Application;
 import android.content.res.Resources;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.squareup.moshi.Moshi;
 
@@ -30,8 +29,8 @@ public class NetworkModule {
 
     private final Resources resources;
 
-    public NetworkModule(Resources resources) {
-        this.resources = resources;
+    public NetworkModule(Application application) {
+        this.resources = application.getResources();
     }
 
     @Provides
@@ -66,16 +65,6 @@ public class NetworkModule {
                 .build();
 
         return retrofit.create(GatekeeperService.class);
-    }
-
-    @Provides
-    DatabaseReference provideEventsDatabaseReference() {
-        return FirebaseDatabase.getInstance().getReference();
-    }
-
-    @Provides
-    FirebaseRemoteConfig provideFirebaseRemoteConfig() {
-        return FirebaseRemoteConfig.getInstance();
     }
 
 }
