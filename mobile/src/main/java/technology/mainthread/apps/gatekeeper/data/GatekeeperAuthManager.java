@@ -44,9 +44,8 @@ public class GatekeeperAuthManager implements AuthManager {
             Timber.d("Google signin result: %s", result.isSuccess());
             if (result.isSuccess()) {
                 authenticateWithFirebase(result.getSignInAccount());
-            } else {
-                // TODO: display error
             }
+            // TODO: display error
         }
     }
 
@@ -74,7 +73,6 @@ public class GatekeeperAuthManager implements AuthManager {
                 Timber.d("onAuthStateChanged:signed_out");
             }
         };
-
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential).isSuccessful();
