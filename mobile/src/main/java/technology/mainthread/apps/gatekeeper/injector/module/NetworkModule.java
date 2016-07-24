@@ -1,10 +1,13 @@
 package technology.mainthread.apps.gatekeeper.injector.module;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Resources;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.moshi.Moshi;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Singleton;
 
@@ -27,9 +30,11 @@ import technology.mainthread.apps.gatekeeper.util.StethoUtil;
 @Module
 public class NetworkModule {
 
+    private final Context context;
     private final Resources resources;
 
     public NetworkModule(Application application) {
+        this.context = application.getApplicationContext();
         this.resources = application.getResources();
     }
 
@@ -65,6 +70,14 @@ public class NetworkModule {
                 .build();
 
         return retrofit.create(GatekeeperService.class);
+    }
+
+    @Provides
+    @Singleton
+    Picasso providePicasso(OkHttpClient okHttpClient) {
+        return new Picasso.Builder(context)
+                .downloader(new OkHttp3Downloader(okHttpClient))
+                .build();
     }
 
 }

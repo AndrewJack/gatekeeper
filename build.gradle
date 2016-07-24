@@ -82,10 +82,10 @@ subprojects {
 
         targetSdk = 24
         compileSdk = 24
-        minSdk = 21
+        minSdk = 23
         buildTools = "24.0.0"
         commonPlayServicesVersion = '9.2.1'
-        commonSupportLibraryVersion = '24.0.0'
+        commonSupportLibraryVersion = '24.1.1'
         daggerVersion = '2.2'
     }
 }

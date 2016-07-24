@@ -10,6 +10,10 @@
             android:id="@+id/nav_logs"
             android:icon="@drawable/ic_event_note_black_24dp"
             android:title="Logs"/>
+        <item
+            android:id="@+id/nav_images"
+            android:icon="@drawable/ic_camera_alt_black_24dp"
+            android:title="Images"/>
     </group>
 
     <item android:title="Config">

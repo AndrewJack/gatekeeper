@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.databinding.ActivityMainBinding;
+import technology.mainthread.apps.gatekeeper.view.fragment.ImagesFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.LogsFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.SettingsFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.UnlockFragment;
@@ -114,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showFragment(UnlockFragment.newInstance());
         } else if (id == R.id.nav_logs) {
             showFragment(LogsFragment.newInstance());
+
+        } else if (id == R.id.nav_images) {
+            showFragment(ImagesFragment.newInstance());
         } else if (id == R.id.nav_settings) {
             showFragment(SettingsFragment.newInstance());
         }

@@ -12,16 +12,16 @@ import com.trello.rxlifecycle.components.support.RxFragment;
 import javax.inject.Inject;
 
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
-import technology.mainthread.apps.gatekeeper.databinding.FragmentLogsBinding;
-import technology.mainthread.apps.gatekeeper.viewModel.LogsFragmentViewModel;
+import technology.mainthread.apps.gatekeeper.databinding.FragmentImagesBinding;
+import technology.mainthread.apps.gatekeeper.viewModel.ImagesFragmentViewModel;
 
-public class LogsFragment extends RxFragment {
+public class ImagesFragment extends RxFragment {
 
     @Inject
-    LogsFragmentViewModel viewModel;
+    ImagesFragmentViewModel viewModel;
 
     public static Fragment newInstance() {
-        return new LogsFragment();
+        return new ImagesFragment();
     }
 
     @Override
@@ -33,11 +33,10 @@ public class LogsFragment extends RxFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        FragmentLogsBinding binding = FragmentLogsBinding.inflate(inflater, container, false);
+        FragmentImagesBinding binding = FragmentImagesBinding.inflate(inflater, container, false);
         binding.setViewModel(viewModel);
 
-        viewModel.initialize(binding.logsRecyclerView);
+        viewModel.initialise(binding.imagesRecyclerView);
         return binding.getRoot();
     }
-
 }

@@ -21,6 +21,7 @@ android {
         buildConfigField 'boolean', 'ENABLE_FABRIC', "false"
         resValue 'string', 'particle_auth', appProps["particle_auth"] != null ? appProps['particle_auth'] : "Authorization: particle-auth"
         resValue 'string', 'particle_device', appProps["particle_device"] != null ? appProps["particle_device"] : ''
+        resValue 'string', 'bucket_name', appProps["bucket_name"] != null ? appProps["bucket_name"] : ''
 
         resConfigs "en"
     }
@@ -101,10 +102,11 @@ dependencies {
     compile "com.google.firebase:firebase-analytics:${commonPlayServicesVersion}"
     compile "com.google.firebase:firebase-config:${commonPlayServicesVersion}"
     compile "com.google.firebase:firebase-database:${commonPlayServicesVersion}"
+    compile "com.google.firebase:firebase-storage:${commonPlayServicesVersion}"
     compile "com.google.firebase:firebase-auth:${commonPlayServicesVersion}"
     compile "com.google.android.gms:play-services-auth:${commonPlayServicesVersion}"
     compile "com.google.firebase:firebase-messaging:${commonPlayServicesVersion}"
-    compile 'com.firebaseui:firebase-ui-database:0.4.2'
+    compile 'com.firebaseui:firebase-ui-database:0.4.3'
 
     // Android support libraries
     compile "com.android.support:support-v4:${commonSupportLibraryVersion}"
@@ -116,13 +118,13 @@ dependencies {
     compile "com.android.support:preference-v7:${commonSupportLibraryVersion}"
 
     // rx
-    compile 'io.reactivex:rxjava:1.1.7'
+    compile 'io.reactivex:rxjava:1.1.8'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.trello:rxlifecycle:0.6.1'
     compile 'com.trello:rxlifecycle-components:0.6.1'
 
     // Crash logs
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.0@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
         transitive = true;
     }
 
@@ -133,6 +135,8 @@ dependencies {
     compile 'com.squareup.moshi:moshi:1.2.0'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
 
     // Autovalue
     apt 'com.google.auto.value:auto-value:1.2'

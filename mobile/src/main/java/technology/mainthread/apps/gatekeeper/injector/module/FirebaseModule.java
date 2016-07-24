@@ -3,6 +3,7 @@ package technology.mainthread.apps.gatekeeper.injector.module;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.storage.FirebaseStorage;
 
 import dagger.Module;
 import dagger.Provides;
@@ -26,5 +27,10 @@ public class FirebaseModule {
     @Provides
     FirebaseRemoteConfig provideRemoteConfig() {
         return FirebaseRemoteConfig.getInstance();
+    }
+
+    @Provides
+    FirebaseStorage provideFirebaseStorage() {
+        return FirebaseStorage.getInstance();
     }
 }

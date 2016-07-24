@@ -1,5 +1,4 @@
 # This is an example app.properties file.
 particle_device=device-id
 particle_auth=Authorization: particle-auth
-firebase_endpoint=https://app-name.firebaseio.com/
-firebase_secret=custom-auth-token
+bucket_name=gs://app-name.appspot.com
