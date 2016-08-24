@@ -7,9 +7,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.2.0-beta2'
         classpath 'com.google.gms:google-services:3.0.0'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
         //noinspection GradleDynamicVersion
         classpath 'io.fabric.tools:gradle:1.+'
@@ -83,10 +82,12 @@ subprojects {
         targetSdk = 24
         compileSdk = 24
         minSdk = 23
-        buildTools = "24.0.0"
-        commonPlayServicesVersion = '9.2.1'
-        commonSupportLibraryVersion = '24.1.1'
-        daggerVersion = '2.2'
+        buildTools = "24.0.2"
+        commonPlayServicesVersion = '9.4.0'
+        commonSupportLibraryVersion = '24.2.0'
+        daggerVersion = '2.6.1'
+        rxJavaVersion = '1.1.9'
+        rxAndroidVersion = '1.2.1'
     }
 }
 
@@ -104,7 +105,7 @@ dependencyUpdates.resolutionStrategy = {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
+    gradleVersion = '2.14.1'
 }
 
 task clean(type: Delete) {
