@@ -5,16 +5,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import technology.mainthread.apps.gatekeeper.common.SharedValues;
+import timber.log.Timber;
 
 public class GatekeeperAuthManager implements AuthManager {
 
@@ -53,7 +56,17 @@ public class GatekeeperAuthManager implements AuthManager {
     private boolean authWithFirebaseSync(GoogleSignInAccount acct) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         Task<AuthResult> task = firebaseAuth.signInWithCredential(credential);
-        return task.isComplete() && task.isSuccessful() && task.getResult().getUser() != null;
+        try {
+            Tasks.await(task);
+        } catch (ExecutionException e) {
+            Timber.d(e, "task await ExecutionException");
+        } catch (InterruptedException e) {
+            Timber.e(e, "task await InterruptedException");
+        }
+
+        boolean success = task.isComplete() && task.isSuccessful() && task.getResult().getUser() != null;
+
+        return success;
     }
 
     private boolean signOutSync() {

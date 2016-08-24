@@ -13,7 +13,7 @@ public class AndroidAppInfo {
     private final Context context;
 
     @Inject
-    public AndroidAppInfo(Context context) {
+    AndroidAppInfo(Context context) {
         this.context = context;
     }
 
