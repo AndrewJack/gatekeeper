@@ -22,9 +22,7 @@ import technology.mainthread.apps.gatekeeper.BuildConfig;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.data.RemoteConfigKeys;
 import technology.mainthread.apps.gatekeeper.data.service.GatekeeperService;
-import technology.mainthread.apps.gatekeeper.model.particle.CoreInfo;
-import technology.mainthread.apps.gatekeeper.model.particle.DeviceAction;
-import technology.mainthread.apps.gatekeeper.model.particle.DeviceStatus;
+import technology.mainthread.apps.gatekeeper.model.GatekeeperAdapterFactory;
 import technology.mainthread.apps.gatekeeper.util.StethoUtil;
 
 @Module
@@ -53,9 +51,7 @@ public class NetworkModule {
     @Singleton
     Moshi provideMoshi() {
         return new Moshi.Builder()
-                .add(DeviceAction.typeAdapter())
-                .add(DeviceStatus.typeAdapter())
-                .add(CoreInfo.typeAdapter())
+                .add(GatekeeperAdapterFactory.create())
                 .build();
     }
 

@@ -3,6 +3,7 @@ package technology.mainthread.apps.gatekeeper.model.particle;
 import com.google.auto.value.AutoValue;
 import com.squareup.moshi.Json;
 import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 
 @AutoValue
 public abstract class DeviceAction {
@@ -11,8 +12,8 @@ public abstract class DeviceAction {
 
     public abstract boolean connected();
 
-    public static JsonAdapter.Factory typeAdapter() {
-        return AutoValue_DeviceAction.typeAdapterFactory();
+    public static JsonAdapter<DeviceAction> jsonAdapter(Moshi moshi) {
+        return new AutoValue_DeviceAction.MoshiJsonAdapter(moshi);
     }
 
     public static Builder builder() {
