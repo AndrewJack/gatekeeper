@@ -98,7 +98,6 @@ dependencies {
 
     // Firebase
     compile "com.google.firebase:firebase-core:${commonPlayServicesVersion}"
-    compile "com.google.firebase:firebase-analytics:${commonPlayServicesVersion}"
     compile "com.google.firebase:firebase-config:${commonPlayServicesVersion}"
     compile "com.google.firebase:firebase-database:${commonPlayServicesVersion}"
     compile "com.google.firebase:firebase-storage:${commonPlayServicesVersion}"
