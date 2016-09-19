@@ -14,22 +14,20 @@ import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.model.firebase.EventLog;
 import technology.mainthread.apps.gatekeeper.view.adapter.LogsAdapter;
 import technology.mainthread.apps.gatekeeper.view.adapter.LogsViewHolder;
-import timber.log.Timber;
 
 public class LogsFragmentViewModel extends BaseObservable {
 
-    private final DatabaseReference doorEvents;
+    private final DatabaseReference events;
 
     @Inject
     LogsFragmentViewModel(FirebaseDatabase database) {
-        this.doorEvents = database.getReference().child("door-events");
+        this.events = database.getReference().child("events");
     }
 
     public void initialize(RecyclerView logsRecyclerView) {
-        Timber.d("init");
         logsRecyclerView.setLayoutManager(new LinearLayoutManager(logsRecyclerView.getContext()));
         logsRecyclerView.setHasFixedSize(true);
-        Query query = doorEvents.orderByChild("timestamp").limitToLast(100);
+        Query query = events.orderByChild("sort").limitToLast(100);
         LogsAdapter logsAdapter = new LogsAdapter(EventLog.class, R.layout.item_log, LogsViewHolder.class, query);
         logsRecyclerView.setAdapter(logsAdapter);
     }

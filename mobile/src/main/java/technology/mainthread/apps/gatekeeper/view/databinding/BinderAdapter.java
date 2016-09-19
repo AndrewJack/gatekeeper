@@ -8,10 +8,13 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.model.event.GatekeeperState;
+import timber.log.Timber;
 
 public class BinderAdapter {
 
@@ -19,10 +22,14 @@ public class BinderAdapter {
     }
 
     @BindingAdapter({"bind:datetime"})
-    public static void setFormattedDateTime(TextView textView, long timestamp) {
-        Date date = new Date(timestamp);
-        CharSequence relativeTimeSpanString = DateUtils.getRelativeTimeSpanString(date.getTime());
-        textView.setText(relativeTimeSpanString);
+    public static void setFormattedDateTime(TextView textView, String timestamp) {
+        try {
+            Date date = DateFormat.getInstance().parse(timestamp);
+            CharSequence relativeTimeSpanString = DateUtils.getRelativeTimeSpanString(date.getTime());
+            textView.setText(relativeTimeSpanString);
+        } catch (ParseException e) {
+            Timber.w(e, "ParseException");
+        }
     }
 
     @BindingAdapter({"bind:formatEvent"})

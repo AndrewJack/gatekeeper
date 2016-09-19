@@ -116,9 +116,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_logs) {
             showFragment(LogsFragment.newInstance());
 
-        } else if (id == R.id.nav_images) {
-            showFragment(ImagesFragment.newInstance());
-        } else if (id == R.id.nav_settings) {
+        }
+//        else if (id == R.id.nav_images) {
+//            showFragment(ImagesFragment.newInstance());
+//        }
+        else if (id == R.id.nav_settings) {
             showFragment(SettingsFragment.newInstance());
         }
 

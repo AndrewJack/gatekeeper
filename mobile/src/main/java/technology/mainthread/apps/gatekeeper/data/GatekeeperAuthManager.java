@@ -23,10 +23,14 @@ public class GatekeeperAuthManager implements AuthManager {
 
     private final GoogleApiClient googleApiClient;
     private final FirebaseAuth firebaseAuth;
+    private final RegisterDevices registerDevices;
 
-    public GatekeeperAuthManager(GoogleApiClient googleApiClient, FirebaseAuth firebaseAuth) {
+    public GatekeeperAuthManager(GoogleApiClient googleApiClient,
+                                 FirebaseAuth firebaseAuth,
+                                 RegisterDevices registerDevices) {
         this.googleApiClient = googleApiClient;
         this.firebaseAuth = firebaseAuth;
+        this.registerDevices = registerDevices;
     }
 
     @Override
@@ -65,6 +69,10 @@ public class GatekeeperAuthManager implements AuthManager {
         }
 
         boolean success = task.isComplete() && task.isSuccessful() && task.getResult().getUser() != null;
+
+        if (success) {
+            registerDevices.registerDevice();
+        }
 
         return success;
     }
