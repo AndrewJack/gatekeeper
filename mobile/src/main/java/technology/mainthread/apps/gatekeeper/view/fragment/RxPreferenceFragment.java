@@ -2,20 +2,23 @@ package technology.mainthread.apps.gatekeeper.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.view.View;
 
-import com.trello.rxlifecycle.FragmentEvent;
-import com.trello.rxlifecycle.FragmentLifecycleProvider;
+import com.trello.rxlifecycle.LifecycleProvider;
 import com.trello.rxlifecycle.LifecycleTransformer;
 import com.trello.rxlifecycle.RxLifecycle;
+import com.trello.rxlifecycle.android.FragmentEvent;
+import com.trello.rxlifecycle.android.RxLifecycleAndroid;
 
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
-public abstract class RxPreferenceFragment extends PreferenceFragmentCompat implements FragmentLifecycleProvider {
+public abstract class RxPreferenceFragment extends PreferenceFragmentCompat implements LifecycleProvider<FragmentEvent> {
 
     private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
 
@@ -37,64 +40,74 @@ public abstract class RxPreferenceFragment extends PreferenceFragmentCompat impl
     @NonNull
     @CheckResult
     public final <T> LifecycleTransformer<T> bindToLifecycle() {
-        return RxLifecycle.bindFragment(lifecycleSubject);
+        return RxLifecycleAndroid.bindFragment(lifecycleSubject);
     }
 
     @Override
+    @CallSuper
     public void onAttach(Context context) {
         super.onAttach(context);
         lifecycleSubject.onNext(FragmentEvent.ATTACH);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    @CallSuper
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lifecycleSubject.onNext(FragmentEvent.CREATE);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    @CallSuper
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         lifecycleSubject.onNext(FragmentEvent.CREATE_VIEW);
     }
 
     @Override
+    @CallSuper
     public void onStart() {
         super.onStart();
         lifecycleSubject.onNext(FragmentEvent.START);
     }
 
     @Override
+    @CallSuper
     public void onResume() {
         super.onResume();
         lifecycleSubject.onNext(FragmentEvent.RESUME);
     }
 
     @Override
+    @CallSuper
     public void onPause() {
         lifecycleSubject.onNext(FragmentEvent.PAUSE);
         super.onPause();
     }
 
     @Override
+    @CallSuper
     public void onStop() {
         lifecycleSubject.onNext(FragmentEvent.STOP);
         super.onStop();
     }
 
     @Override
+    @CallSuper
     public void onDestroyView() {
         lifecycleSubject.onNext(FragmentEvent.DESTROY_VIEW);
         super.onDestroyView();
     }
 
     @Override
+    @CallSuper
     public void onDestroy() {
         lifecycleSubject.onNext(FragmentEvent.DESTROY);
         super.onDestroy();
     }
 
     @Override
+    @CallSuper
     public void onDetach() {
         lifecycleSubject.onNext(FragmentEvent.DETACH);
         super.onDetach();

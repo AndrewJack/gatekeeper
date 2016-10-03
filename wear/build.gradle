@@ -66,7 +66,7 @@ dependencies {
     compile project(':common')
 
     // Play Services
-    compile 'com.google.android.gms:play-services-wearable:9.4.0'
+    compile 'com.google.android.gms:play-services-wearable:9.6.1'
 
     // Wear support libraries
     provided 'com.google.android.wearable:wearable:1.0.0'
@@ -81,7 +81,7 @@ dependencies {
     compile "io.reactivex:rxjava:${rxJavaVersion}"
     compile "io.reactivex:rxandroid:${rxAndroidVersion}"
 
-    compile 'com.squareup.okio:okio:1.9.0'
-    compile 'com.jakewharton.timber:timber:4.3.0'
+    compile 'com.squareup.okio:okio:1.10.0'
+    compile 'com.jakewharton.timber:timber:4.3.1'
 }
 apply from: '../config/static-analysis.gradle'

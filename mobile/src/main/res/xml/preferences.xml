@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:title="@string/pref_group_title_account">
+    <PreferenceCategory android:title="@string/pref_group_title_account">
 
         <PreferenceScreen
             android:key="pref_sign_out"
-            android:title="@string/pref_title_sign_out"
-            android:summary="@string/pref_summary_sign_out" />
+            android:summary="@string/pref_summary_sign_out"
+            android:title="@string/pref_title_sign_out" />
 
         <PreferenceScreen
             android:key="pref_delete"
-            android:title="@string/pref_title_delete"
-            android:summary="@string/pref_summary_delete" />
+            android:summary="@string/pref_summary_delete"
+            android:title="@string/pref_title_delete" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/pref_group_title_notifications">
+    <PreferenceCategory android:title="@string/pref_group_title_notifications">
+
+        <MultiSelectListPreference
+            android:dialogTitle="@string/pref_title_notif_subscriptions"
+            android:entries="@array/notif_subscriptions_entries"
+            android:entryValues="@array/notif_subscriptions_values"
+            android:key="pref_notif_subscriptions"
+            android:summary="@string/pref_summary_notif_subscriptions"
+            android:title="@string/pref_title_notif_subscriptions"
+            android:defaultValue="@array/pref_notif_subscriptions_default" />
 
         <ListPreference
-            android:key="pref_vibrate_tune"
-            android:summary="%s"
-            android:title="@string/pref_title_vibrate_tune"
             android:defaultValue="STANDARD"
             android:entries="@array/pref_entries_vibrate_tunes"
-            android:entryValues="@array/pref_entry_values_vibrate_tunes" />
+            android:entryValues="@array/pref_entry_values_vibrate_tunes"
+            android:key="pref_vibrate_tune"
+            android:summary="%s"
+            android:title="@string/pref_title_vibrate_tune" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/pref_group_title_about">
+    <PreferenceCategory android:title="@string/pref_group_title_about">
 
         <PreferenceScreen
             android:key="pref_licenses"

@@ -82,8 +82,8 @@ subprojects {
         targetSdk = 24
         compileSdk = 24
         minSdk = 23
-        buildTools = "24.0.2"
-        commonPlayServicesVersion = '9.4.0'
+        buildTools = "24.0.3"
+        commonPlayServicesVersion = '9.6.1'
         commonSupportLibraryVersion = '24.2.1'
         daggerVersion = '2.7'
         rxJavaVersion = '1.2.0'
