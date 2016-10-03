@@ -11,7 +11,6 @@ import technology.mainthread.apps.gatekeeper.view.fragment.ImagesFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.LogsFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.SettingsFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.UnlockFragment;
-import technology.mainthread.apps.gatekeeper.view.widget.PrimeWidgetService;
 
 public interface AppGraph {
     void inject(GatekeeperApp gatekeeperApp);
@@ -23,8 +22,6 @@ public interface AppGraph {
     void inject(GatekeeperIntentService gatekeeperIntentService);
 
     void inject(LogsFragment logsFragment);
-
-    void inject(PrimeWidgetService primeWidgetService);
 
     void inject(MobileWearListenerService mobileWearListenerService);
 

@@ -56,24 +56,6 @@
                     android:scheme="wear" />
             </intent-filter>
         </service>
-
-        <!-- Widget -->
-        <receiver
-            android:name=".view.widget.PrimeWidgetProvider"
-            android:icon="@mipmap/ic_launcher"
-            android:label="Prime Button">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
-        </receiver>
-
-        <service
-            android:name=".view.widget.PrimeWidgetService"
-            android:exported="false" />
     </application>
 
 </manifest>
