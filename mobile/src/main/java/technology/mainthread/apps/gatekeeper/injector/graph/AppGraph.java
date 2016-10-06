@@ -5,6 +5,7 @@ import technology.mainthread.apps.gatekeeper.service.GatekeeperIntentService;
 import technology.mainthread.apps.gatekeeper.service.MessagingInstanceIdService;
 import technology.mainthread.apps.gatekeeper.service.MessagingService;
 import technology.mainthread.apps.gatekeeper.service.MobileWearListenerService;
+import technology.mainthread.apps.gatekeeper.service.RefreshFCMSubscriptionsService;
 import technology.mainthread.apps.gatekeeper.view.activity.AuthActivity;
 import technology.mainthread.apps.gatekeeper.view.activity.MainActivity;
 import technology.mainthread.apps.gatekeeper.view.fragment.ImagesFragment;
@@ -34,4 +35,6 @@ public interface AppGraph {
     void inject(MainActivity mainActivity);
 
     void inject(ImagesFragment imagesFragment);
+
+    void inject(RefreshFCMSubscriptionsService refreshFCMSubscriptionsService);
 }

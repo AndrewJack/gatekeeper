@@ -47,6 +47,10 @@
             android:name=".service.GatekeeperIntentService"
             android:exported="false" />
 
+        <service
+            android:name=".service.RefreshFCMSubscriptionsService"
+            android:exported="false" />
+
         <service android:name=".service.MobileWearListenerService">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />

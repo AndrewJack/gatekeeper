@@ -11,6 +11,11 @@ import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -28,6 +33,7 @@ public class NotifierHelper {
     private static final int ID_UNLOCKED = 2;
     private static final int ID_HANDSET_CALLED = 3;
     private static final int ID_PRIMED = 4;
+    private static final int ID_OTHER = 5;
 
     private final Context context;
     private final Resources resources;
@@ -55,13 +61,19 @@ public class NotifierHelper {
 
     // Public methods
 
+    public void handlePushNotification(String from) {
+        final NotificationCompat.Builder notification = getBaseNotification()
+                .setContentTitle(from)
+                .setContentIntent(getLogsPendingIntent())
+                .setAutoCancel(true);
+
+        notificationManager.notify(ID_OTHER, notification.build());
+    }
+
     /**
      * Displays a handset calling notification will cancel after a minute
      */
     public void notifyHandsetCalling() {
-        Timber.d("notifyHandsetCalling");
-        notificationManager.cancelAll();
-
         PendingIntent unlockPendingIntent = PendingIntent.getService(context, 0, GatekeeperIntentService.getUnlockGatekeeperIntent(context), PendingIntent.FLAG_UPDATE_CURRENT);
 
         final NotificationCompat.Builder notification = getBaseNotification()
@@ -117,18 +129,6 @@ public class NotifierHelper {
         notificationManager.notify(ID_UNLOCKED, notification);
     }
 
-    /**
-     * To be called when the prime button has been pressed
-     */
-    public void onPrimePressed() {
-        // TODO - do we want to display something?
-    }
-
-    public void notifySystemPrimed(boolean success) {
-        Notification notification = getBaseNotification().setContentTitle(success ? "System Primed!" : "Prime failed :(").build();
-        notificationManager.notify(ID_PRIMED, notification);
-    }
-
     // \Public methods
 
     // Private methods
@@ -139,7 +139,6 @@ public class NotifierHelper {
     }
 
     private void notifyHandsetCalled() {
-        Timber.d("notifyHandsetCalled");
         PendingIntent contentPendingIntent = PendingIntent.getActivity(context, 0, MainActivity.getMainIntent(context, MainActivity.FRAG_LOGS), 0);
 
         NotificationCompat.Builder notification = getBaseNotification()

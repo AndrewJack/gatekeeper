@@ -27,6 +27,6 @@ public class MessagingService extends FirebaseMessagingService {
             Timber.d("%1$s is a key in the bundle, %2$s is the value", key, remoteMessage.getData().get(key));
         }
 
-        notifierHelper.notifyHandsetCalling();
+        notifierHelper.handlePushNotification(remoteMessage.getFrom());
     }
 }

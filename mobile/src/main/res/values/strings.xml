@@ -23,25 +23,26 @@
     <string-array name="notif_subscriptions_entries">
         <item>Door opened</item>
         <item>Door closed</item>
-        <item>handset activated</item>
-        <item>Door deactivated</item>
+        <item>Handset activated</item>
+        <item>Handset deactivated</item>
         <item>Primed</item>
         <item>Unprimed</item>
         <item>Unlocked</item>
     </string-array>
     <string-array name="notif_subscriptions_values">
-        <item>/topics/door-opened</item>
-        <item>/topics/door-closed</item>
-        <item>/topics/handset-activated</item>
-        <item>/topics/door-deactivated</item>
-        <item>/topics/primed</item>
-        <item>/topics/unprimed</item>
-        <item>/topics/unlocked</item>
+        <item>door-opened</item>
+        <item>door-closed</item>
+        <item>handset-activated</item>
+        <item>handset-deactivated</item>
+        <item>primed</item>
+        <item>unprimed</item>
+        <item>unlocked</item>
     </string-array>
     <string-array name="pref_notif_subscriptions_default">
-        <item>/topics/unlocked</item>
-        <item>/topics/primed</item>
-        <item>/topics/handset-activated</item>
+        <item>handset-activated</item>
+        <item>handset-deactivated</item>
+        <item>primed</item>
+        <item>unlocked</item>
     </string-array>
 
     <string name="pref_title_vibrate_tune">Vibration tune</string>

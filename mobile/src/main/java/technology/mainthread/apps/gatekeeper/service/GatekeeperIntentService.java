@@ -158,7 +158,6 @@ public class GatekeeperIntentService extends Service {
 
     private void prime() {
         appStateController.onAppEvent(AppEventType.PRIMING, false, R.string.event_prime_in_progress);
-        notifierHelper.onPrimePressed();
 
         Subscription subscription = gatekeeperService.prime(config.getString(RemoteConfigKeys.PARTICLE_AUTH))
                 .compose(RxSchedulerHelper.applySchedulers())
@@ -177,16 +176,13 @@ public class GatekeeperIntentService extends Service {
                             if (response.body().returnValue() == 0) {
                                 appStateController.updateGatekeeperState(GatekeeperState.PRIMED);
                                 appStateController.onAppEvent(AppEventType.COMPLETE, true, R.string.event_prime_success);
-                                notifierHelper.notifySystemPrimed(true);
                                 checkGatekeeperStateInFuture(TIME_UNTIL_PRIME_EXPIRED);
                             } else { // Device failure
                                 appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_prime_fail);
-                                notifierHelper.notifySystemPrimed(false);
                                 checkGatekeeperStateInFuture(10000);
                             }
                         } else {
                             appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_prime_fail);
-                            notifierHelper.notifySystemPrimed(false);
                             checkGatekeeperStateInFuture(10000);
                         }
                     }

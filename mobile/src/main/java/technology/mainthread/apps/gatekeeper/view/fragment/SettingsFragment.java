@@ -16,6 +16,7 @@ import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 import technology.mainthread.apps.gatekeeper.data.AndroidAppInfo;
 import technology.mainthread.apps.gatekeeper.data.AuthManager;
 import technology.mainthread.apps.gatekeeper.data.VibratorTunes;
+import technology.mainthread.apps.gatekeeper.service.RefreshFCMSubscriptionsService;
 import technology.mainthread.apps.gatekeeper.view.activity.AuthActivity;
 
 public class SettingsFragment extends RxPreferenceFragment {
@@ -86,6 +87,11 @@ public class SettingsFragment extends RxPreferenceFragment {
                 vibrator.vibrate(vibrateTune, -1);
             }
 
+            return true;
+        });
+
+        findPreference("pref_notif_subscriptions").setOnPreferenceChangeListener((preference, newValue) -> {
+            getActivity().startService(RefreshFCMSubscriptionsService.getRefreshFCMSubscriptionsIntent(getActivity()));
             return true;
         });
     }
