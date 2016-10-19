@@ -91,4 +91,8 @@
     <string name="event_prime_fail">Prime failed</string>
     <string name="event_unlock_in_progress">Unlocking</string>
 
+    <!--Shortcuts-->
+    <string name="shortcut_prime_label">Prime</string>
+    <string name="shortcut_unlock_label">Unlock</string>
+    <string name="shortcut_logs_label">Logs</string>
 </resources>

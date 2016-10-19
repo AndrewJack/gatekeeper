@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        enabled="true"
+        shortcutId="shortcut-prime"
+        shortcutShortLabel="@string/shortcut_prime_label">
+        <intent
+            android:action="ACTION_PRIME"
+            android:targetClass="technology.mainthread.apps.gatekeeper.view.activity.MainActivity"
+            android:targetPackage="technology.mainthread.apps.gatekeeper" />
+    </shortcut>
+    <shortcut
+        enabled="true"
+        shortcutId="shortcut-unlock"
+        shortcutShortLabel="@string/shortcut_unlock_label">
+        <intent
+            android:action="ACTION_UNLOCK"
+            android:targetClass="technology.mainthread.apps.gatekeeper.view.activity.MainActivity"
+            android:targetPackage="technology.mainthread.apps.gatekeeper" />
+    </shortcut>
+    <shortcut
+        enabled="true"
+        shortcutId="shortcut-logs"
+        shortcutShortLabel="@string/shortcut_logs_label">
+        <intent
+            android:action="ACTION_LOGS"
+            android:targetClass="technology.mainthread.apps.gatekeeper.view.activity.MainActivity"
+            android:targetPackage="technology.mainthread.apps.gatekeeper" />
+    </shortcut>
+</shortcuts>
