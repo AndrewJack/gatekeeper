@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'com.google.gms:google-services:3.0.0'
         classpath 'me.tatarka:gradle-retrolambda:3.3.0'
         //noinspection GradleDynamicVersion
@@ -79,14 +79,14 @@ subprojects {
         versionPatch = 0
         versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
-        targetSdk = 24
-        compileSdk = 24
+        targetSdk = 25
+        compileSdk = 25
         minSdk = 23
-        buildTools = "24.0.3"
+        buildTools = "25.0.0"
         commonPlayServicesVersion = '9.6.1'
-        commonSupportLibraryVersion = '24.2.1'
+        commonSupportLibraryVersion = '25.0.0'
         daggerVersion = '2.7'
-        rxJavaVersion = '1.2.0'
+        rxJavaVersion = '1.2.1'
         rxAndroidVersion = '1.2.1'
     }
 }
