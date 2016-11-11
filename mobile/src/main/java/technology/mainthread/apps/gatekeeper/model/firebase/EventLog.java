@@ -20,7 +20,7 @@ public class EventLog {
         source = builder.source;
     }
 
-    public static Builder Builder() {
+    public static Builder builder() {
         return new Builder();
     }
 

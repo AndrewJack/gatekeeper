@@ -11,11 +11,6 @@ import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Map;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 

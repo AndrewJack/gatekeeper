@@ -35,8 +35,6 @@ public class ImagesFragmentViewModel extends BaseObservable {
             ImagesAdapter imagesAdapter = new ImagesAdapter(picasso, Collections.singletonList(uri));
             imagesRecyclerView.setAdapter(imagesAdapter);
         });
-
-
     }
 
 }

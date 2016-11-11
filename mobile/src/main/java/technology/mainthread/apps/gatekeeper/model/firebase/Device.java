@@ -17,7 +17,7 @@ public class Device {
         pushToken = builder.pushToken;
     }
 
-    public static Builder Builder() {
+    public static Builder builder() {
         return new Builder();
     }
 

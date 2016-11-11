@@ -30,7 +30,7 @@ public class RegisterDevices {
         String token = firebaseInstanceId.getToken();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (token != null && user != null) {
-            Device device = Device.Builder()
+            Device device = Device.builder()
                     .userId(user.getUid())
                     .deviceName(Build.MANUFACTURER + Build.PRODUCT)
                     .pushToken(token)
