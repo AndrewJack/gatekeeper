@@ -27,7 +27,7 @@ public class LogsFragmentViewModel extends BaseObservable {
     public void initialize(RecyclerView logsRecyclerView) {
         logsRecyclerView.setLayoutManager(new LinearLayoutManager(logsRecyclerView.getContext()));
         logsRecyclerView.setHasFixedSize(true);
-        Query query = events.orderByChild("sort").limitToLast(100);
+        Query query = events.orderByChild("sort").limitToFirst(100);
         LogsAdapter logsAdapter = new LogsAdapter(EventLog.class, R.layout.item_log, LogsViewHolder.class, query);
         logsRecyclerView.setAdapter(logsAdapter);
     }

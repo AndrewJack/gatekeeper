@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.model.event.GatekeeperState;
@@ -24,7 +26,8 @@ public class BinderAdapter {
     @BindingAdapter({"datetime"})
     public static void setFormattedDateTime(TextView textView, String timestamp) {
         try {
-            Date date = DateFormat.getInstance().parse(timestamp);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.UK);
+            Date date = sdf.parse(timestamp);
             CharSequence relativeTimeSpanString = DateUtils.getRelativeTimeSpanString(date.getTime());
             textView.setText(relativeTimeSpanString);
         } catch (ParseException e) {
