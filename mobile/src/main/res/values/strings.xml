@@ -2,10 +2,13 @@
     <!--App-->
     <string name="app_description">Staircase explorer</string>
 
-    <!--Side Nav-->
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!--Navigation-->
+    <string name="menu_unlock">Unlock</string>
+    <string name="menu_logs">Logs</string>
+    <string name="menu_camera">Camera</string>
+    <string name="menu_settings">Settings</string>
 
+    <!--Unlock-->
     <string name="btn_title_prime">Prime</string>
     <string name="btn_title_unlock">Unlock</string>
 
@@ -95,4 +98,7 @@
     <string name="shortcut_prime_label">Prime</string>
     <string name="shortcut_unlock_label">Unlock</string>
     <string name="shortcut_logs_label">Logs</string>
+
+    <!--Other-->
+    <string name="coming_soon">Coming Soon</string>
 </resources>

@@ -21,7 +21,7 @@ public class BinderAdapter {
     private BinderAdapter() {
     }
 
-    @BindingAdapter({"bind:datetime"})
+    @BindingAdapter({"datetime"})
     public static void setFormattedDateTime(TextView textView, String timestamp) {
         try {
             Date date = DateFormat.getInstance().parse(timestamp);
@@ -32,7 +32,7 @@ public class BinderAdapter {
         }
     }
 
-    @BindingAdapter({"bind:formatEvent"})
+    @BindingAdapter({"formatEvent"})
     public static void formatEvent(TextView textView, String state) {
         String prettyState;
         switch (state) {
@@ -67,7 +67,7 @@ public class BinderAdapter {
         textView.setText(prettyState);
     }
 
-    @BindingAdapter({"bind:statusColor"})
+    @BindingAdapter({"statusColor"})
     public static void deviceStatusIcon(View view, String state) {
         Context context = view.getContext();
         int color = ContextCompat.getColor(context, android.R.color.holo_red_dark);
@@ -92,7 +92,7 @@ public class BinderAdapter {
         view.setBackgroundColor(color);
     }
 
-    @BindingAdapter({"bind:statusText"})
+    @BindingAdapter({"statusText"})
     public static void deviceStatusText(TextView textView, String state) {
         Resources res = textView.getResources();
         String statusText = res.getString(R.string.status_unknown);

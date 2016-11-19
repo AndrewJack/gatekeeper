@@ -14,6 +14,9 @@
 -keep class okhttp3.** { *; }
 -keep interface okhttp3.** { *; }
 
+# Picasso
+-dontwarn com.squareup.picasso.OkHttpDownloader
+
 # RxJava
 -dontwarn sun.misc.**
 
