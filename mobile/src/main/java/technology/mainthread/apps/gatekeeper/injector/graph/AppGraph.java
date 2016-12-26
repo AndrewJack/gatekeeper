@@ -1,7 +1,7 @@
 package technology.mainthread.apps.gatekeeper.injector.graph;
 
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
-import technology.mainthread.apps.gatekeeper.service.GatekeeperIntentService;
+import technology.mainthread.apps.gatekeeper.service.GatekeeperStateService;
 import technology.mainthread.apps.gatekeeper.service.MessagingInstanceIdService;
 import technology.mainthread.apps.gatekeeper.service.MessagingService;
 import technology.mainthread.apps.gatekeeper.service.MobileWearListenerService;
@@ -20,7 +20,7 @@ public interface AppGraph {
 
     void inject(SettingsFragment settingsFragment);
 
-    void inject(GatekeeperIntentService gatekeeperIntentService);
+    void inject(GatekeeperStateService gatekeeperStateService);
 
     void inject(LogsFragment logsFragment);
 

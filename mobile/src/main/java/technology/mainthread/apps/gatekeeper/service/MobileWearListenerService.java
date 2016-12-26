@@ -18,6 +18,10 @@ import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.common.SharedValues;
 import timber.log.Timber;
 
+import static technology.mainthread.apps.gatekeeper.service.GatekeeperStateService.ACTION_PRIME;
+import static technology.mainthread.apps.gatekeeper.service.GatekeeperStateService.ACTION_UNLOCK;
+import static technology.mainthread.apps.gatekeeper.service.GatekeeperStateService.getGatekeeperStateIntent;
+
 public class MobileWearListenerService extends WearableListenerService {
 
     @Inject
@@ -38,10 +42,10 @@ public class MobileWearListenerService extends WearableListenerService {
                     logWearException(messageEvent);
                     break;
                 case SharedValues.PATH_PRIME:
-                    startService(GatekeeperIntentService.getPrimeGatekeeperIntent(this));
+                    startService(getGatekeeperStateIntent(this, ACTION_PRIME));
                     break;
                 case SharedValues.PATH_UNLOCK:
-                    startService(GatekeeperIntentService.getUnlockGatekeeperIntent(this));
+                    startService(getGatekeeperStateIntent(this, ACTION_UNLOCK));
                     break;
                 default:
                     Timber.d("onMessageReceived: %s", messageEvent.getPath());

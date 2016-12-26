@@ -9,15 +9,16 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import rx.Observable;
+import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 import technology.mainthread.apps.gatekeeper.data.AppStateController;
-import technology.mainthread.apps.gatekeeper.model.particle.DeviceStatus;
 import technology.mainthread.apps.gatekeeper.model.event.AppEvent;
 import technology.mainthread.apps.gatekeeper.model.event.AppEventType;
-import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
+import technology.mainthread.apps.gatekeeper.model.particle.DeviceStatus;
 
-import static technology.mainthread.apps.gatekeeper.service.GatekeeperIntentService.getCheckGatekeeperStateIntent;
-import static technology.mainthread.apps.gatekeeper.service.GatekeeperIntentService.getPrimeGatekeeperIntent;
-import static technology.mainthread.apps.gatekeeper.service.GatekeeperIntentService.getUnlockGatekeeperIntent;
+import static technology.mainthread.apps.gatekeeper.service.GatekeeperStateService.ACTION_CHECK_STATE;
+import static technology.mainthread.apps.gatekeeper.service.GatekeeperStateService.ACTION_PRIME;
+import static technology.mainthread.apps.gatekeeper.service.GatekeeperStateService.ACTION_UNLOCK;
+import static technology.mainthread.apps.gatekeeper.service.GatekeeperStateService.getGatekeeperStateIntent;
 
 public class UnlockFragmentViewModel extends BaseObservable {
 
@@ -50,15 +51,15 @@ public class UnlockFragmentViewModel extends BaseObservable {
                 .subscribe(event -> onAppEvent((AppEvent) event));
 
         deviceStatus.set(appStateController.getLastKnownGatekeeperState());
-        context.startService(getCheckGatekeeperStateIntent(context));
+        context.startService(getGatekeeperStateIntent(context, ACTION_CHECK_STATE));
     }
 
     public void onUnlockClicked(View view) {
-        context.startService(getUnlockGatekeeperIntent(context));
+        context.startService(getGatekeeperStateIntent(context, ACTION_UNLOCK));
     }
 
     public void onPrimeClicked(View view) {
-        context.startService(getPrimeGatekeeperIntent(context));
+        context.startService(getGatekeeperStateIntent(context, ACTION_PRIME));
     }
 
     private void onAppEvent(AppEvent appEvent) {

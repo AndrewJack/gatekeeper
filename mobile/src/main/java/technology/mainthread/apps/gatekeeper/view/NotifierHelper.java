@@ -16,9 +16,12 @@ import javax.inject.Singleton;
 
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.data.VibratorTunes;
-import technology.mainthread.apps.gatekeeper.service.GatekeeperIntentService;
+import technology.mainthread.apps.gatekeeper.service.GatekeeperStateService;
 import technology.mainthread.apps.gatekeeper.view.activity.MainActivity;
 import timber.log.Timber;
+
+import static technology.mainthread.apps.gatekeeper.service.GatekeeperStateService.ACTION_UNLOCK;
+import static technology.mainthread.apps.gatekeeper.service.GatekeeperStateService.getGatekeeperStateIntent;
 
 @Singleton
 public class NotifierHelper {
@@ -69,7 +72,7 @@ public class NotifierHelper {
      * Displays a handset calling notification will cancel after a minute
      */
     public void notifyHandsetCalling() {
-        PendingIntent unlockPendingIntent = PendingIntent.getService(context, 0, GatekeeperIntentService.getUnlockGatekeeperIntent(context), PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent unlockPendingIntent = PendingIntent.getService(context, 0, getGatekeeperStateIntent(context, ACTION_UNLOCK), PendingIntent.FLAG_UPDATE_CURRENT);
 
         final NotificationCompat.Builder notification = getBaseNotification()
                 .setContentTitle(resources.getString(R.string.notif_title_handset_ringing))

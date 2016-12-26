@@ -30,11 +30,11 @@ import timber.log.Timber;
 
 import static technology.mainthread.apps.gatekeeper.model.event.StringDefUtil.getGatekeeperState;
 
-public class GatekeeperIntentService extends Service {
+public class GatekeeperStateService extends Service {
 
-    private static final String ACTION_CHECK_STATE = "ACTION_CHECK_STATE";
-    private static final String ACTION_UNLOCK = "ACTION_UNLOCK";
-    private static final String ACTION_PRIME = "ACTION_PRIME";
+    public static final String ACTION_CHECK_STATE = "ACTION_CHECK_STATE";
+    public static final String ACTION_UNLOCK = "ACTION_UNLOCK";
+    public static final String ACTION_PRIME = "ACTION_PRIME";
 
     private static final int TIME_UNTIL_PRIME_EXPIRED = 2 * 60 * 1000; // Default 2 mins // TODO: fetch from api
 
@@ -52,21 +52,9 @@ public class GatekeeperIntentService extends Service {
     private CompositeSubscription cs = new CompositeSubscription();
     private Handler handler = new Handler();
 
-    public static Intent getCheckGatekeeperStateIntent(Context context) {
-        Intent intent = new Intent(context, GatekeeperIntentService.class);
-        intent.setAction(ACTION_CHECK_STATE);
-        return intent;
-    }
-
-    public static Intent getUnlockGatekeeperIntent(Context context) {
-        Intent intent = new Intent(context, GatekeeperIntentService.class);
-        intent.setAction(ACTION_UNLOCK);
-        return intent;
-    }
-
-    public static Intent getPrimeGatekeeperIntent(Context context) {
-        Intent intent = new Intent(context, GatekeeperIntentService.class);
-        intent.setAction(ACTION_PRIME);
+    public static Intent getGatekeeperStateIntent(Context context, String action) {
+        Intent intent = new Intent(context, GatekeeperStateService.class);
+        intent.setAction(action);
         return intent;
     }
 

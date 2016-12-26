@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'com.google.gms:google-services:3.0.0'
-        classpath 'me.tatarka:gradle-retrolambda:3.3.1'
+        classpath 'me.tatarka:gradle-retrolambda:3.4.0'
         //noinspection GradleDynamicVersion
         classpath 'io.fabric.tools:gradle:1.+'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
@@ -85,8 +85,8 @@ subprojects {
         buildTools = "25.0.1"
         commonPlayServicesVersion = '10.0.1'
         commonSupportLibraryVersion = '25.1.0'
-        daggerVersion = '2.7'
-        rxJavaVersion = '1.2.2'
+        daggerVersion = '2.8'
+        rxJavaVersion = '1.2.4'
         rxAndroidVersion = '1.2.1'
     }
 }
