@@ -86,7 +86,7 @@ dependencies {
     compile project(':common')
 
     // Android Wear
-//    wearApp project(':wear')
+    wearApp project(':wear')
 
     // Dagger 2
     compile "com.google.dagger:dagger:${daggerVersion}"
