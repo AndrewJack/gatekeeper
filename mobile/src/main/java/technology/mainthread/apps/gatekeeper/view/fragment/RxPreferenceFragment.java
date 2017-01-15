@@ -1,6 +1,5 @@
 package technology.mainthread.apps.gatekeeper.view.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.CheckResult;
@@ -9,14 +8,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.view.View;
 
-import com.trello.rxlifecycle.LifecycleProvider;
-import com.trello.rxlifecycle.LifecycleTransformer;
-import com.trello.rxlifecycle.RxLifecycle;
-import com.trello.rxlifecycle.android.FragmentEvent;
-import com.trello.rxlifecycle.android.RxLifecycleAndroid;
+import com.trello.rxlifecycle2.LifecycleProvider;
+import com.trello.rxlifecycle2.LifecycleTransformer;
+import com.trello.rxlifecycle2.RxLifecycle;
+import com.trello.rxlifecycle2.android.FragmentEvent;
+import com.trello.rxlifecycle2.android.RxLifecycleAndroid;
 
-import rx.Observable;
-import rx.subjects.BehaviorSubject;
+import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
 
 public abstract class RxPreferenceFragment extends PreferenceFragmentCompat implements LifecycleProvider<FragmentEvent> {
 
@@ -26,7 +25,7 @@ public abstract class RxPreferenceFragment extends PreferenceFragmentCompat impl
     @NonNull
     @CheckResult
     public final Observable<FragmentEvent> lifecycle() {
-        return lifecycleSubject.asObservable();
+        return lifecycleSubject.hide();
     }
 
     @Override
@@ -45,8 +44,8 @@ public abstract class RxPreferenceFragment extends PreferenceFragmentCompat impl
 
     @Override
     @CallSuper
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(android.app.Activity activity) {
+        super.onAttach(activity);
         lifecycleSubject.onNext(FragmentEvent.ATTACH);
     }
 

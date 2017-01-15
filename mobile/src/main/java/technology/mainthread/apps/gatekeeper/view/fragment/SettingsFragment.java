@@ -48,7 +48,7 @@ public class SettingsFragment extends RxPreferenceFragment {
         super.onViewCreated(view, savedInstanceState);
         findPreference("pref_sign_out").setOnPreferenceClickListener(preference -> {
             authManager.signOut()
-                    .compose(RxSchedulerHelper.applySchedulers())
+                    .compose(RxSchedulerHelper.applyFlowableSchedulers())
                     .compose(bindToLifecycle())
                     .subscribe(success -> {
                         if (success) {
@@ -62,7 +62,7 @@ public class SettingsFragment extends RxPreferenceFragment {
         });
         findPreference("pref_delete").setOnPreferenceClickListener(preference -> {
             authManager.deleteAccount()
-                    .compose(RxSchedulerHelper.applySchedulers())
+                    .compose(RxSchedulerHelper.applyFlowableSchedulers())
                     .compose(bindToLifecycle())
                     .subscribe(success -> {
                         if (success) {

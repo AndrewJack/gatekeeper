@@ -2,7 +2,9 @@ package technology.mainthread.apps.gatekeeper.messenger;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableOnSubscribe;
 import technology.mainthread.apps.gatekeeper.common.SharedValues;
 
 public class WearToMobileRequester {
@@ -14,13 +16,19 @@ public class WearToMobileRequester {
         this.messenger = messenger;
     }
 
-    public Observable<Boolean> prime() {
-        return Observable.defer(() ->
-                Observable.just(messenger.sendMessage(SharedValues.PATH_PRIME, new byte[0])));
+    public Flowable<Boolean> prime() {
+        FlowableOnSubscribe<Boolean> source = e -> {
+            e.onNext(messenger.sendMessage(SharedValues.PATH_PRIME, new byte[0]));
+            e.onComplete();
+        };
+        return Flowable.create(source, BackpressureStrategy.BUFFER);
     }
 
-    public Observable<Boolean> unlock() {
-        return Observable.defer(() ->
-                Observable.just(messenger.sendMessage(SharedValues.PATH_UNLOCK, new byte[0])));
+    public Flowable<Boolean> unlock() {
+        FlowableOnSubscribe<Boolean> source = e -> {
+            e.onNext(messenger.sendMessage(SharedValues.PATH_UNLOCK, new byte[0]));
+            e.onComplete();
+        };
+        return Flowable.create(source, BackpressureStrategy.BUFFER);
     }
 }

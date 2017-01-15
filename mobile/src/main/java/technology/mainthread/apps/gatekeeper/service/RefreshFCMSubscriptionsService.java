@@ -12,7 +12,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import io.reactivex.Observable;
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.R;
 
@@ -20,17 +20,17 @@ public class RefreshFCMSubscriptionsService extends IntentService {
 
     private static final String ACTION_REFRESH_FCM_SUBSCRIPTIONS = "ACTION_REFRESH_FCM_SUBSCRIPTIONS";
 
-    public static Intent getRefreshFCMSubscriptionsIntent(Context context) {
-        Intent intent = new Intent(context, RefreshFCMSubscriptionsService.class);
-        intent.setAction(ACTION_REFRESH_FCM_SUBSCRIPTIONS);
-        return intent;
-    }
-
     @Inject
     FirebaseMessaging messaging;
 
     public RefreshFCMSubscriptionsService() {
         super(RefreshFCMSubscriptionsService.class.getSimpleName());
+    }
+
+    public static Intent getRefreshFCMSubscriptionsIntent(Context context) {
+        Intent intent = new Intent(context, RefreshFCMSubscriptionsService.class);
+        intent.setAction(ACTION_REFRESH_FCM_SUBSCRIPTIONS);
+        return intent;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class RefreshFCMSubscriptionsService extends IntentService {
         }
 
         String[] allSubscriptions = getResources().getStringArray(R.array.notif_subscriptions_values);
-        Observable.from(allSubscriptions)
+        Observable.fromArray(allSubscriptions)
                 .forEach(subscription -> {
                     if (subscriptions.contains(subscription)) {
                         messaging.subscribeToTopic(subscription);

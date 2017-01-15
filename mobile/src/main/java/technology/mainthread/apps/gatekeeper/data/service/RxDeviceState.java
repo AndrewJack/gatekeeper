@@ -4,10 +4,10 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 import technology.mainthread.apps.gatekeeper.data.RemoteConfigKeys;
-import technology.mainthread.apps.gatekeeper.model.particle.DeviceStatus;
 import technology.mainthread.apps.gatekeeper.model.event.GatekeeperState;
+import technology.mainthread.apps.gatekeeper.model.particle.DeviceStatus;
 
 public class RxDeviceState {
 
@@ -20,9 +20,9 @@ public class RxDeviceState {
         this.config = config;
     }
 
-    public Observable<String> gatekeeperStateObservable() {
+    public Flowable<String> gatekeeperStateObservable() {
         String auth = config.getString(RemoteConfigKeys.PARTICLE_AUTH);
-        return Observable.zip(
+        return Flowable.zip(
                 gatekeeperService.doorStatusResult(auth),
                 gatekeeperService.primedStatusResult(auth),
                 (DeviceStatus doorStatus, DeviceStatus primeStatus) -> {

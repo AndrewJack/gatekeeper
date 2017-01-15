@@ -8,7 +8,8 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import rx.Observable;
+import com.trello.rxlifecycle2.LifecycleTransformer;
+
 import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 import technology.mainthread.apps.gatekeeper.data.AppStateController;
 import technology.mainthread.apps.gatekeeper.model.event.AppEvent;
@@ -25,7 +26,7 @@ public class UnlockFragmentViewModel extends BaseObservable {
     private final Context context;
     private final View rootView;
     private final AppStateController appStateController;
-    private final Observable.Transformer lifecycleTransformer;
+    private final LifecycleTransformer lifecycleTransformer;
 
     public ObservableBoolean loading = new ObservableBoolean();
 
@@ -34,7 +35,7 @@ public class UnlockFragmentViewModel extends BaseObservable {
     public UnlockFragmentViewModel(Context context,
                                    View rootView,
                                    AppStateController appStateController,
-                                   Observable.Transformer lifecycleTransformer) {
+                                   LifecycleTransformer lifecycleTransformer) {
         this.context = context;
         this.rootView = rootView;
         this.appStateController = appStateController;
@@ -47,7 +48,7 @@ public class UnlockFragmentViewModel extends BaseObservable {
     public void initialize() {
         appStateController.getObservable()
                 .compose(lifecycleTransformer)
-                .compose(RxSchedulerHelper.<DeviceStatus>applySchedulers())
+                .compose(RxSchedulerHelper.<DeviceStatus>applyObservableSchedulers())
                 .subscribe(event -> onAppEvent((AppEvent) event));
 
         deviceStatus.set(appStateController.getLastKnownGatekeeperState());

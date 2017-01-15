@@ -3,19 +3,17 @@ package technology.mainthread.apps.gatekeeper.data;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import rx.Observable;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subjects.Subject;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 @Singleton
 public class RxBus {
 
-    private final Subject<Object, Object> bus;
+    private final PublishSubject<Object> bus;
 
     @Inject
     public RxBus() {
-        bus = new SerializedSubject<>(PublishSubject.create());
+        bus = PublishSubject.create();
     }
 
     public void send(Object event) {

@@ -3,16 +3,16 @@ package technology.mainthread.apps.gatekeeper.data;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 public interface AuthManager {
 
     GoogleApiClient getGoogleApiClient();
 
-    Observable<Boolean> authWithFirebase(GoogleSignInAccount account);
+    Flowable<Boolean> authWithFirebase(GoogleSignInAccount account);
 
-    Observable<Boolean> signOut();
+    Flowable<Boolean> signOut();
 
-    Observable<Boolean> deleteAccount();
+    Flowable<Boolean> deleteAccount();
 
 }

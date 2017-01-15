@@ -11,10 +11,8 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import javax.inject.Inject;
 
-import retrofit2.Response;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
@@ -24,7 +22,6 @@ import technology.mainthread.apps.gatekeeper.data.service.GatekeeperService;
 import technology.mainthread.apps.gatekeeper.data.service.RxDeviceState;
 import technology.mainthread.apps.gatekeeper.model.event.AppEventType;
 import technology.mainthread.apps.gatekeeper.model.event.GatekeeperState;
-import technology.mainthread.apps.gatekeeper.model.particle.DeviceAction;
 import technology.mainthread.apps.gatekeeper.view.NotifierHelper;
 import timber.log.Timber;
 
@@ -49,7 +46,7 @@ public class GatekeeperStateService extends Service {
     @Inject
     FirebaseRemoteConfig config;
 
-    private CompositeSubscription cs = new CompositeSubscription();
+    private CompositeDisposable cs = new CompositeDisposable();
     private Handler handler = new Handler();
 
     public static Intent getGatekeeperStateIntent(Context context, String action) {
@@ -64,11 +61,14 @@ public class GatekeeperStateService extends Service {
         GatekeeperApp.get(this).inject(this);
     }
 
-    @Nullable @Override public IBinder onBind(Intent intent) {
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
         return null;
     }
 
-    @Override public int onStartCommand(Intent intent, int flags, int startId) {
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
         String action = intent.getAction();
 
         if (ACTION_CHECK_STATE.equals(action)) {
@@ -81,31 +81,22 @@ public class GatekeeperStateService extends Service {
         return START_NOT_STICKY;
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         handler.removeCallbacksAndMessages(null);
         cs.clear();
         super.onDestroy();
     }
 
     private void checkGatekeeperState() {
-        Subscription subscription = rxDeviceState.gatekeeperStateObservable()
-                .compose(RxSchedulerHelper.applySchedulers())
-                .subscribe(new Subscriber<String>() {
-                    @Override public void onCompleted() {
+        Disposable disposable = rxDeviceState.gatekeeperStateObservable()
+                .compose(RxSchedulerHelper.applyFlowableSchedulers())
+                .subscribe(state -> {
+                    appStateController.updateGatekeeperState(getGatekeeperState(state));
+                    appStateController.onAppEvent(AppEventType.READY, false, 0);
+                }, t -> Timber.e(t, "Throwable when unlocking"));
 
-                    }
-
-                    @Override public void onError(Throwable e) {
-                        Timber.e(e, "Throwable when unlocking");
-                    }
-
-                    @Override public void onNext(String state) {
-                        appStateController.updateGatekeeperState(getGatekeeperState(state));
-                        appStateController.onAppEvent(AppEventType.READY, false, 0);
-                    }
-                });
-
-        cs.add(subscription);
+        cs.add(disposable);
     }
 
     private void checkGatekeeperStateInFuture(int millisecondsFromNow) {
@@ -116,66 +107,50 @@ public class GatekeeperStateService extends Service {
         appStateController.onAppEvent(AppEventType.UNLOCKING, false, R.string.event_unlock_in_progress);
         notifierHelper.onUnlockPressed();
 
-        Subscription subscription = gatekeeperService.unlock(config.getString(RemoteConfigKeys.PARTICLE_AUTH))
-                .compose(RxSchedulerHelper.applySchedulers())
-                .subscribe(new Subscriber<Response<DeviceAction>>() {
-                    @Override public void onCompleted() {
-                        // NO_OP
-                    }
-
-                    @Override public void onError(Throwable e) {
-                        Timber.e(e, "Throwable when unlocking");
-                        appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_unlock_fail);
-                    }
-
-                    @Override public void onNext(Response<DeviceAction> response) {
-                        if (response.isSuccessful()) {
-                            if (response.body().returnValue() == 0) {
-                                appStateController.onAppEvent(AppEventType.COMPLETE, true, R.string.event_unlock_success);
-                                notifierHelper.notifyHandsetUnlocked(true);
-                            } else {
-                                appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_unlock_fail);
-                            }
+        Disposable disposable = gatekeeperService.unlock(config.getString(RemoteConfigKeys.PARTICLE_AUTH))
+                .compose(RxSchedulerHelper.applyFlowableSchedulers())
+                .subscribe(deviceActionResponse -> {
+                    if (deviceActionResponse.isSuccessful()) {
+                        if (deviceActionResponse.body().returnValue() == 0) {
+                            appStateController.onAppEvent(AppEventType.COMPLETE, true, R.string.event_unlock_success);
+                            notifierHelper.notifyHandsetUnlocked(true);
                         } else {
                             appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_unlock_fail);
                         }
+                    } else {
+                        appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_unlock_fail);
                     }
+                }, t -> {
+                    Timber.e(t, "Throwable when unlocking");
+                    appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_unlock_fail);
                 });
-        cs.add(subscription);
+        cs.add(disposable);
     }
 
     private void prime() {
         appStateController.onAppEvent(AppEventType.PRIMING, false, R.string.event_prime_in_progress);
 
-        Subscription subscription = gatekeeperService.prime(config.getString(RemoteConfigKeys.PARTICLE_AUTH))
-                .compose(RxSchedulerHelper.applySchedulers())
-                .subscribe(new Subscriber<Response<DeviceAction>>() {
-                    @Override public void onCompleted() {
-                        // NO_OP
-                    }
-
-                    @Override public void onError(Throwable e) {
-                        Timber.e(e, "Throwable when priming");
-                        appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_unlock_fail);
-                    }
-
-                    @Override public void onNext(Response<DeviceAction> response) {
-                        if (response.isSuccessful()) {
-                            if (response.body().returnValue() == 0) {
-                                appStateController.updateGatekeeperState(GatekeeperState.PRIMED);
-                                appStateController.onAppEvent(AppEventType.COMPLETE, true, R.string.event_prime_success);
-                                checkGatekeeperStateInFuture(TIME_UNTIL_PRIME_EXPIRED);
-                            } else { // Device failure
-                                appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_prime_fail);
-                                checkGatekeeperStateInFuture(10000);
-                            }
-                        } else {
+        Disposable disposable = gatekeeperService.prime(config.getString(RemoteConfigKeys.PARTICLE_AUTH))
+                .compose(RxSchedulerHelper.applyFlowableSchedulers())
+                .subscribe(deviceActionResponse -> {
+                    if (deviceActionResponse.isSuccessful()) {
+                        if (deviceActionResponse.body().returnValue() == 0) {
+                            appStateController.updateGatekeeperState(GatekeeperState.PRIMED);
+                            appStateController.onAppEvent(AppEventType.COMPLETE, true, R.string.event_prime_success);
+                            checkGatekeeperStateInFuture(TIME_UNTIL_PRIME_EXPIRED);
+                        } else { // Device failure
                             appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_prime_fail);
                             checkGatekeeperStateInFuture(10000);
                         }
+                    } else {
+                        appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_prime_fail);
+                        checkGatekeeperStateInFuture(10000);
                     }
+                }, t -> {
+                    Timber.e(t, "Throwable when priming");
+                    appStateController.onAppEvent(AppEventType.COMPLETE, false, R.string.event_unlock_fail);
                 });
-        cs.add(subscription);
+        cs.add(disposable);
     }
 
 }

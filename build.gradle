@@ -82,12 +82,12 @@ subprojects {
         targetSdk = 25
         compileSdk = 25
         minSdk = 23
-        buildTools = "25.0.1"
+        buildTools = "25.0.2"
         commonPlayServicesVersion = '10.0.1'
         commonSupportLibraryVersion = '25.1.0'
         daggerVersion = '2.8'
-        rxJavaVersion = '1.2.4'
-        rxAndroidVersion = '1.2.1'
+        rxJavaVersion = '2.0.4'
+        rxAndroidVersion = '2.0.1'
     }
 }
 

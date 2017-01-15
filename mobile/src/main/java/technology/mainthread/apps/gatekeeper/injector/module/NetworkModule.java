@@ -6,6 +6,7 @@ import android.content.res.Resources;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.jakewharton.picasso.OkHttp3Downloader;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.squareup.moshi.Moshi;
 import com.squareup.picasso.Picasso;
 
@@ -16,7 +17,6 @@ import dagger.Provides;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 import technology.mainthread.apps.gatekeeper.BuildConfig;
 import technology.mainthread.apps.gatekeeper.R;
@@ -61,7 +61,7 @@ public class NetworkModule {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(resources.getString(R.string.particle_endpoint, config.getString(RemoteConfigKeys.PARTICLE_DEVICE)))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .build();
 

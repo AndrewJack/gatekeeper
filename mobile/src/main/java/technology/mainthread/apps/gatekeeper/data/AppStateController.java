@@ -5,10 +5,10 @@ import android.support.annotation.StringRes;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import rx.Observable;
+import io.reactivex.Observable;
+import technology.mainthread.apps.gatekeeper.model.event.AppEvent;
 import technology.mainthread.apps.gatekeeper.model.event.AppEventType;
 import technology.mainthread.apps.gatekeeper.model.event.GatekeeperState;
-import technology.mainthread.apps.gatekeeper.model.event.AppEvent;
 import timber.log.Timber;
 
 @Singleton
@@ -42,10 +42,10 @@ public class AppStateController {
                 .build());
     }
 
-    public Observable<technology.mainthread.apps.gatekeeper.model.event.AppEvent> getObservable() {
+    public Observable<AppEvent> getObservable() {
         return bus.toObservable()
-                .filter(o -> o instanceof technology.mainthread.apps.gatekeeper.model.event.AppEvent)
-                .map(o -> (technology.mainthread.apps.gatekeeper.model.event.AppEvent) o);
+                .filter(o -> o instanceof AppEvent)
+                .map(o -> (AppEvent) o);
     }
 
 }

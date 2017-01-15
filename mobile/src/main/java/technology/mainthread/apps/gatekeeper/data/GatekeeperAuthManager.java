@@ -15,7 +15,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import rx.Observable;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableOnSubscribe;
 import technology.mainthread.apps.gatekeeper.common.SharedValues;
 import timber.log.Timber;
 
@@ -39,18 +41,30 @@ public class GatekeeperAuthManager implements AuthManager {
     }
 
     @Override
-    public Observable<Boolean> authWithFirebase(GoogleSignInAccount account) {
-        return Observable.defer(() -> Observable.just(authWithFirebaseSync(account)));
+    public Flowable<Boolean> authWithFirebase(GoogleSignInAccount account) {
+        FlowableOnSubscribe<Boolean> source = e -> {
+            e.onNext(authWithFirebaseSync(account));
+            e.onComplete();
+        };
+        return Flowable.create(source, BackpressureStrategy.BUFFER);
     }
 
     @Override
-    public Observable<Boolean> signOut() {
-        return Observable.defer(() -> Observable.just(signOutSync()));
+    public Flowable<Boolean> signOut() {
+        FlowableOnSubscribe<Boolean> source = e -> {
+            e.onNext(signOutSync());
+            e.onComplete();
+        };
+        return Flowable.create(source, BackpressureStrategy.BUFFER);
     }
 
     @Override
-    public Observable<Boolean> deleteAccount() {
-        return Observable.defer(() -> Observable.just(deleteAccountSync()));
+    public Flowable<Boolean> deleteAccount() {
+        FlowableOnSubscribe<Boolean> source = e -> {
+            e.onNext(deleteAccountSync());
+            e.onComplete();
+        };
+        return Flowable.create(source, BackpressureStrategy.BUFFER);
     }
 
     private ConnectionResult connect() {

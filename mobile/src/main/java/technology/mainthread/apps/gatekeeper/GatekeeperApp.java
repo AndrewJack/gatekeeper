@@ -19,14 +19,14 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import io.fabric.sdk.android.Fabric;
-import rx.Observable;
+import io.reactivex.Completable;
 import technology.mainthread.apps.gatekeeper.data.CrashlyticsTree;
 import technology.mainthread.apps.gatekeeper.data.RemoteConfigKeys;
 import technology.mainthread.apps.gatekeeper.injector.component.AppComponent;
 import technology.mainthread.apps.gatekeeper.util.StethoUtil;
 import timber.log.Timber;
 
-import static technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper.applySchedulers;
+import static technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper.applyCompletableSchedulers;
 
 public class GatekeeperApp extends Application {
 
@@ -36,6 +36,10 @@ public class GatekeeperApp extends Application {
     SharedPreferences sharedPreferences;
 
     private AppComponent component;
+
+    public static AppComponent get(Context context) {
+        return ((GatekeeperApp) context.getApplicationContext()).component;
+    }
 
     @Override
     public void onCreate() {
@@ -49,15 +53,15 @@ public class GatekeeperApp extends Application {
         }
         Timber.plant(BuildConfig.ENABLE_FABRIC ? new CrashlyticsTree() : new Timber.DebugTree());
 
-        Observable.defer(() -> Observable.just(setupFirebase()))
-                .compose(applySchedulers())
+        Completable.fromAction(() -> setupFirebase())
+                .compose(applyCompletableSchedulers())
                 .subscribe();
 
         checkGooglePlayServices();
 
     }
 
-    private Void setupFirebase() {
+    private void setupFirebase() {
         Timber.d("Setup firebase");
         FirebaseDatabase instance = FirebaseDatabase.getInstance();
         instance.setPersistenceEnabled(true);
@@ -76,7 +80,6 @@ public class GatekeeperApp extends Application {
 
             Timber.d("App version %s", config.getString(RemoteConfigKeys.APP_VERSION));
         });
-        return null;
     }
 
     private Map<String, Object> getDefaultsConfig() {
@@ -92,9 +95,5 @@ public class GatekeeperApp extends Application {
         if (status != ConnectionResult.SUCCESS) {
             googleApiAvailability.showErrorNotification(this, status);
         }
-    }
-
-    public static AppComponent get(Context context) {
-        return ((GatekeeperApp) context.getApplicationContext()).component;
     }
 }

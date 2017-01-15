@@ -16,7 +16,6 @@ import javax.inject.Singleton;
 
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.data.VibratorTunes;
-import technology.mainthread.apps.gatekeeper.service.GatekeeperStateService;
 import technology.mainthread.apps.gatekeeper.view.activity.MainActivity;
 import timber.log.Timber;
 

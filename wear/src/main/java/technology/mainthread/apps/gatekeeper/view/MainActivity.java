@@ -9,22 +9,20 @@ import android.view.View;
 
 import javax.inject.Inject;
 
-import rx.functions.Action1;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 import technology.mainthread.apps.gatekeeper.messenger.WearToMobileRequester;
-import timber.log.Timber;
 
-import static technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper.applySchedulers;
+import static technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper.applyFlowableSchedulers;
 
 public class MainActivity extends WearableActivity implements ActionGridPagerAdapter.ActionClickListener {
 
     @Inject
     WearToMobileRequester requester;
 
-    private CompositeSubscription subscriptions = new CompositeSubscription();
+    private CompositeDisposable cs = new CompositeDisposable();
     private View progress;
     private GridViewPager pager;
 
@@ -41,8 +39,13 @@ public class MainActivity extends WearableActivity implements ActionGridPagerAda
     }
 
     @Override
+    protected void onDestroy() {
+        cs.clear();
+        super.onDestroy();
+    }
+
+    @Override
     public void onItemClicked(String action) {
-        Timber.d("onItemClicked: %s", action);
         processRequest(action);
     }
 
@@ -51,23 +54,13 @@ public class MainActivity extends WearableActivity implements ActionGridPagerAda
         progress.setVisibility(View.VISIBLE);
 
         if (GatekeeperAction.ACTION_PRIME.equalsIgnoreCase(action)) {
-            subscriptions.add(requester.prime()
-                    .compose(applySchedulers())
-                    .subscribe(new Action1<Boolean>() {
-                        @Override
-                        public void call(Boolean result) {
-                            handleResult(result);
-                        }
-                    }));
+            cs.add(requester.prime()
+                    .compose(applyFlowableSchedulers())
+                    .subscribe(this::handleResult));
         } else if (GatekeeperAction.ACTION_UNLOCK.equalsIgnoreCase(action)) {
-            subscriptions.add(requester.unlock()
-                    .compose(RxSchedulerHelper.<Boolean>applySchedulers())
-                    .subscribe(new Action1<Boolean>() {
-                        @Override
-                        public void call(Boolean result) {
-                            handleResult(result);
-                        }
-                    }));
+            cs.add(requester.unlock()
+                    .compose(RxSchedulerHelper.<Boolean>applyFlowableSchedulers())
+                    .subscribe(this::handleResult));
         }
     }
 

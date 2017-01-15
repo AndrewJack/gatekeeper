@@ -72,7 +72,7 @@ public class AuthActivityViewModel extends BaseObservable {
             Timber.d("Google signin result: %s", result.isSuccess());
             if (result.isSuccess()) {
                 authManager.authWithFirebase(result.getSignInAccount())
-                        .compose(RxSchedulerHelper.applySchedulers())
+                        .compose(RxSchedulerHelper.applyFlowableSchedulers())
                         .subscribe(success -> {
                             Toast.makeText(activity, "Signed in", Toast.LENGTH_SHORT).show();
                             activity.startActivity(MainActivity.getMainIntent(activity, MainActivity.FRAG_UNLOCK));
