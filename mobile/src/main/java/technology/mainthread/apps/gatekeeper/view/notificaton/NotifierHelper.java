@@ -1,4 +1,4 @@
-package technology.mainthread.apps.gatekeeper.view;
+package technology.mainthread.apps.gatekeeper.view.notificaton;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -11,13 +11,16 @@ import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import technology.mainthread.apps.gatekeeper.R;
+import technology.mainthread.apps.gatekeeper.data.FCMTopics;
 import technology.mainthread.apps.gatekeeper.data.VibratorTunes;
 import technology.mainthread.apps.gatekeeper.view.activity.MainActivity;
-import timber.log.Timber;
 
 import static technology.mainthread.apps.gatekeeper.service.GatekeeperStateService.ACTION_UNLOCK;
 import static technology.mainthread.apps.gatekeeper.service.GatekeeperStateService.getGatekeeperStateIntent;
@@ -29,8 +32,7 @@ public class NotifierHelper {
     private static final int ID_HANDSET_CALLING = 1;
     private static final int ID_UNLOCKED = 2;
     private static final int ID_HANDSET_CALLED = 3;
-    private static final int ID_PRIMED = 4;
-    private static final int ID_OTHER = 5;
+    private static final int ID_OTHER = 20;
 
     private final Context context;
     private final Resources resources;
@@ -39,9 +41,8 @@ public class NotifierHelper {
     private final Handler handler;
 
     // Cancels calling notification
-    private Runnable cancelNotificationRunnable = new Runnable() {
+    private final Runnable cancelNotificationRunnable = new Runnable() {
         public void run() {
-            Timber.d("handset call timed out");
             notificationManager.cancel(ID_HANDSET_CALLING);
             notifyHandsetCalled();
         }
@@ -59,32 +60,29 @@ public class NotifierHelper {
     // Public methods
 
     public void handlePushNotification(String from) {
-        final NotificationCompat.Builder notification = getBaseNotification()
-                .setContentTitle(from)
-                .setContentIntent(getLogsPendingIntent())
-                .setAutoCancel(true);
+        String topic = from != null ? from.replace("/topics/", "") : "";
+        if (!shouldDisplayNotification(topic)) {
+            return;
+        }
 
-        notificationManager.notify(ID_OTHER, notification.build());
-    }
-
-    /**
-     * Displays a handset calling notification will cancel after a minute
-     */
-    public void notifyHandsetCalling() {
-        PendingIntent unlockPendingIntent = PendingIntent.getService(context, 0, getGatekeeperStateIntent(context, ACTION_UNLOCK), PendingIntent.FLAG_UPDATE_CURRENT);
-
-        final NotificationCompat.Builder notification = getBaseNotification()
-                .setContentTitle(resources.getString(R.string.notif_title_handset_ringing))
-                .setContentIntent(getLogsPendingIntent())
-                .setVibrate(getNotificationPreference())
-                .setSound(getAlarmSound())
-                .addAction(R.drawable.ic_lock_open_black_24dp,
-                        resources.getString(R.string.notif_action_title_unlock), unlockPendingIntent)
-                .setAutoCancel(true);
-
-        notificationManager.notify(ID_HANDSET_CALLING, notification.build());
-
-        handler.postDelayed(cancelNotificationRunnable, 60000); // run after a minute
+        switch (topic) {
+            case FCMTopics.HANDSET_ACTIVATED:
+                notifyHandsetCalling();
+                break;
+            case FCMTopics.HANDSET_DEACTIVATED:
+                clearCallingNotification();
+                notifyHandsetCalled();
+                break;
+            case FCMTopics.UNLOCKED:
+            case FCMTopics.DOOR_OPENED:
+            case FCMTopics.DOOR_CLOSED:
+            case FCMTopics.PRIMED:
+            case FCMTopics.UNPRIMED:
+                notifyOther(topic);
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -93,8 +91,7 @@ public class NotifierHelper {
      * Then removes callback for dismissing and displaying the called notification
      */
     public void onUnlockPressed() {
-        notificationManager.cancel(ID_HANDSET_CALLING);
-        handler.removeCallbacks(cancelNotificationRunnable);
+        clearCallingNotification();
     }
 
     /**
@@ -130,9 +127,21 @@ public class NotifierHelper {
 
     // Private methods
 
-    private NotificationCompat.Builder getBaseNotification() {
-        return new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_lock_open_black_24dp);
+    private void notifyHandsetCalling() {
+        PendingIntent unlockPendingIntent = PendingIntent.getService(context, 0, getGatekeeperStateIntent(context, ACTION_UNLOCK), PendingIntent.FLAG_UPDATE_CURRENT);
+
+        final NotificationCompat.Builder notification = getBaseNotification()
+                .setContentTitle(resources.getString(R.string.notif_title_handset_ringing))
+                .setContentIntent(getLogsPendingIntent())
+                .setVibrate(getVibrationPreference())
+                .setSound(getAlarmSound())
+                .addAction(R.drawable.ic_lock_open_black_24dp,
+                        resources.getString(R.string.notif_action_title_unlock), unlockPendingIntent)
+                .setAutoCancel(true);
+
+        notificationManager.notify(ID_HANDSET_CALLING, notification.build());
+
+        handler.postDelayed(cancelNotificationRunnable, 60000); // run after a minute
     }
 
     private void notifyHandsetCalled() {
@@ -146,6 +155,25 @@ public class NotifierHelper {
         notificationManager.notify(ID_HANDSET_CALLED, notification.build());
     }
 
+    private void notifyOther(String topic) {
+        final NotificationCompat.Builder notification = getBaseNotification()
+                .setContentTitle(String.format("Gatekeeper was %s", topic))
+                .setContentIntent(getLogsPendingIntent())
+                .setAutoCancel(true);
+
+        notificationManager.notify(ID_OTHER, notification.build());
+    }
+
+    private void clearCallingNotification() {
+        notificationManager.cancel(ID_HANDSET_CALLING);
+        handler.removeCallbacks(cancelNotificationRunnable);
+    }
+
+    private NotificationCompat.Builder getBaseNotification() {
+        return new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_lock_open_black_24dp);
+    }
+
     private PendingIntent getLogsPendingIntent() {
         return PendingIntent.getActivity(context, 0, MainActivity.getMainIntent(context, MainActivity.FRAG_LOGS), 0);
     }
@@ -154,7 +182,7 @@ public class NotifierHelper {
         return RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     }
 
-    private long[] getNotificationPreference() {
+    private long[] getVibrationPreference() {
         String prefVibrateTune = preferences.getString("pref_vibrate_tune", null);
 
         long[] tune = VibratorTunes.VIBRATE_TUNES.get(prefVibrateTune);
@@ -164,5 +192,10 @@ public class NotifierHelper {
         }
 
         return tune;
+    }
+
+    private boolean shouldDisplayNotification(String topic) {
+        Set<String> topicPreferences = preferences.getStringSet("pref_notif_subscriptions", new HashSet<>());
+        return topicPreferences.contains(topic);
     }
 }

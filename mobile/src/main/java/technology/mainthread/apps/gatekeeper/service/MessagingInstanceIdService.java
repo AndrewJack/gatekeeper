@@ -21,6 +21,7 @@ public class MessagingInstanceIdService extends FirebaseInstanceIdService {
     @Override
     public void onTokenRefresh() {
         registerDevices.registerDevice();
+        startService(RefreshFCMSubscriptionsService.getRefreshFCMSubscriptionsIntent(this));
     }
 
 }

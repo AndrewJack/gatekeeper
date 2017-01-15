@@ -22,7 +22,7 @@ import technology.mainthread.apps.gatekeeper.data.service.GatekeeperService;
 import technology.mainthread.apps.gatekeeper.data.service.RxDeviceState;
 import technology.mainthread.apps.gatekeeper.model.event.AppEventType;
 import technology.mainthread.apps.gatekeeper.model.event.GatekeeperState;
-import technology.mainthread.apps.gatekeeper.view.NotifierHelper;
+import technology.mainthread.apps.gatekeeper.view.notificaton.NotifierHelper;
 import timber.log.Timber;
 
 import static technology.mainthread.apps.gatekeeper.model.event.StringDefUtil.getGatekeeperState;

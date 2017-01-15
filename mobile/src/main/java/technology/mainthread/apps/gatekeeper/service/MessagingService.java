@@ -6,7 +6,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import javax.inject.Inject;
 
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
-import technology.mainthread.apps.gatekeeper.view.NotifierHelper;
+import technology.mainthread.apps.gatekeeper.view.notificaton.NotifierHelper;
 import timber.log.Timber;
 
 public class MessagingService extends FirebaseMessagingService {

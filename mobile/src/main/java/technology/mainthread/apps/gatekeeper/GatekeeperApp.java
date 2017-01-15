@@ -58,7 +58,6 @@ public class GatekeeperApp extends Application {
                 .subscribe();
 
         checkGooglePlayServices();
-
     }
 
     private void setupFirebase() {
