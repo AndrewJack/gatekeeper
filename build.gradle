@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.google.gms:google-services:3.0.0'
         classpath 'me.tatarka:gradle-retrolambda:3.4.0'
         //noinspection GradleDynamicVersion
@@ -83,22 +83,20 @@ subprojects {
         compileSdk = 25
         minSdk = 23
         buildTools = "25.0.2"
-        commonPlayServicesVersion = '10.0.1'
-        commonSupportLibraryVersion = '25.1.0'
-        daggerVersion = '2.8'
+        commonPlayServicesVersion = '10.2.1'
+        commonSupportLibraryVersion = '25.3.0'
+        daggerVersion = '2.10'
         rxJavaVersion = '2.0.4'
         rxAndroidVersion = '2.0.1'
     }
-}
 
-dependencyUpdates.resolutionStrategy = {
-    componentSelection { rules ->
-        rules.all { ComponentSelection selection ->
-            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
-                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
-            }
-            if (rejected) {
-                selection.reject('Release candidate')
+    project.configurations.all {
+        resolutionStrategy {
+            eachDependency { details ->
+                // Force all of the primary support libraries to use the same version.
+                if (details.requested.group == 'com.android.support') {
+                    details.useVersion commonSupportLibraryVersion
+                }
             }
         }
     }
