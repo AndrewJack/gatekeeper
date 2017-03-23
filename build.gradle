@@ -86,7 +86,7 @@ subprojects {
         commonPlayServicesVersion = '10.2.1'
         commonSupportLibraryVersion = '25.3.0'
         daggerVersion = '2.10'
-        rxJavaVersion = '2.0.4'
+        rxJavaVersion = '2.0.7'
         rxAndroidVersion = '2.0.1'
     }
 
