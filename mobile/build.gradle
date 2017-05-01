@@ -132,8 +132,8 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
     compile 'com.squareup.retrofit2:converter-moshi:2.2.0'
     compile 'com.squareup.moshi:moshi:1.4.0'
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.7.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
 
@@ -144,13 +144,13 @@ dependencies {
     provided 'com.ryanharter.auto.value:auto-value-moshi:0.4.2'
 
     // Other
-    compile 'com.squareup.okio:okio:1.11.0'
+    compile 'com.squareup.okio:okio:1.12.0'
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile('de.psdev.licensesdialog:licensesdialog:1.8.2') { exclude module: 'support-v4' }
 
     // Debug tools
-    debugCompile 'com.facebook.stetho:stetho:1.4.2'
-    debugCompile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
+    debugCompile 'com.facebook.stetho:stetho:1.5.0'
+    debugCompile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 
     // Test
     testCompile 'junit:junit:4.12'
