@@ -5,16 +5,15 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import javax.inject.Inject;
 
-import technology.mainthread.apps.gatekeeper.GatekeeperApp;
+import dagger.android.support.DaggerAppCompatActivity;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.databinding.ActivityAuthBinding;
 import technology.mainthread.apps.gatekeeper.viewModel.AuthActivityViewModel;
 
-public class AuthActivity extends AppCompatActivity {
+public class AuthActivity extends DaggerAppCompatActivity {
 
     @Inject
     AuthActivityViewModel viewModel;
@@ -26,7 +25,6 @@ public class AuthActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GatekeeperApp.get(this).inject(this);
         ActivityAuthBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_auth);
         binding.setViewModel(viewModel);
         viewModel.initialize(this, binding);

@@ -6,13 +6,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 
+import dagger.android.support.DaggerAppCompatActivity;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.databinding.ActivitySettingsBinding;
 import technology.mainthread.apps.gatekeeper.view.fragment.SettingsFragment;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends DaggerAppCompatActivity {
 
     public static Intent getIntent(Context context) {
         return new Intent(context, SettingsActivity.class);

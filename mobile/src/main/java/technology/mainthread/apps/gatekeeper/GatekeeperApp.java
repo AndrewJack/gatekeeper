@@ -1,8 +1,5 @@
 package technology.mainthread.apps.gatekeeper;
 
-import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v4.util.ArrayMap;
 
 import com.crashlytics.android.Crashlytics;
@@ -18,36 +15,30 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
 import io.fabric.sdk.android.Fabric;
 import io.reactivex.Completable;
 import technology.mainthread.apps.gatekeeper.data.CrashlyticsTree;
 import technology.mainthread.apps.gatekeeper.data.RemoteConfigKeys;
-import technology.mainthread.apps.gatekeeper.injector.component.AppComponent;
-import technology.mainthread.apps.gatekeeper.util.StethoUtil;
+import technology.mainthread.apps.gatekeeper.injector.component.DaggerAppComponent;
+import technology.mainthread.apps.gatekeeper.injector.module.AndroidServicesModule;
+import technology.mainthread.apps.gatekeeper.injector.module.AppModule;
+import technology.mainthread.apps.gatekeeper.injector.module.FirebaseModule;
+import technology.mainthread.apps.gatekeeper.injector.module.GoogleApiModule;
+import technology.mainthread.apps.gatekeeper.injector.module.NetworkModule;
 import timber.log.Timber;
 
 import static technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper.applyCompletableSchedulers;
 
-public class GatekeeperApp extends Application {
+public class GatekeeperApp extends DaggerApplication {
 
     @Inject
     GoogleApiAvailability googleApiAvailability;
-    @Inject
-    SharedPreferences sharedPreferences;
-
-    private AppComponent component;
-
-    public static AppComponent get(Context context) {
-        return ((GatekeeperApp) context.getApplicationContext()).component;
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        StethoUtil.setUpStetho(this);
-        component = AppComponent.Initializer.init(this);
-        component.inject(this);
-
         if (BuildConfig.ENABLE_FABRIC) {
             Fabric.with(this, new Crashlytics(), new Beta());
         }
@@ -58,6 +49,17 @@ public class GatekeeperApp extends Application {
                 .subscribe();
 
         checkGooglePlayServices();
+    }
+
+    @Override
+    protected AndroidInjector<GatekeeperApp> applicationInjector() {
+        return DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .androidServicesModule(new AndroidServicesModule(this))
+                .firebaseModule(new FirebaseModule())
+                .googleApiModule(new GoogleApiModule(this))
+                .networkModule(new NetworkModule(this))
+                .create(this);
     }
 
     private void setupFirebase() {

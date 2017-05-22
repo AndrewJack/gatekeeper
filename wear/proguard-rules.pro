@@ -18,3 +18,6 @@
 
 # Retrolambda
 -dontwarn java.lang.invoke.*
+
+# Dagger
+-dontwarn com.google.errorprone.annotations.*

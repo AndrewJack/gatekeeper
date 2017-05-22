@@ -1,6 +1,5 @@
 package technology.mainthread.apps.gatekeeper.service;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.os.Build;
 
@@ -19,12 +18,12 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import technology.mainthread.apps.gatekeeper.GatekeeperApp;
+import dagger.android.DaggerIntentService;
 import technology.mainthread.apps.gatekeeper.common.SharedValues;
 import technology.mainthread.apps.gatekeeper.injector.WearAppClient;
 import timber.log.Timber;
 
-public class ErrorService extends IntentService {
+public class ErrorService extends DaggerIntentService {
 
     @Inject
     @WearAppClient
@@ -32,12 +31,6 @@ public class ErrorService extends IntentService {
 
     public ErrorService() {
         super(ErrorService.class.getSimpleName());
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        GatekeeperApp.get(this).inject(this);
     }
 
     @Override

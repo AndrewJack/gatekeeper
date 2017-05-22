@@ -7,7 +7,7 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 import javax.inject.Inject;
 
-import technology.mainthread.apps.gatekeeper.GatekeeperApp;
+import dagger.android.AndroidInjection;
 import technology.mainthread.apps.gatekeeper.injector.WearAppClient;
 import timber.log.Timber;
 
@@ -19,8 +19,8 @@ public class WearListenerService extends WearableListenerService {
 
     @Override
     public void onCreate() {
+        AndroidInjection.inject(this);
         super.onCreate();
-        GatekeeperApp.get(this).inject(this);
     }
 
     @Override

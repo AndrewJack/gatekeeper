@@ -33,7 +33,7 @@
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
 
-# Crashalytics
+# Crashlytics
 -keep class com.crashlytics.** { *; }
 -keep class com.crashlytics.android.**
 -keepattributes SourceFile,LineNumberTable
@@ -68,3 +68,6 @@
     public static int d(...);
     public static int e(...);
 }
+
+# Dagger
+-dontwarn com.google.errorprone.annotations.*

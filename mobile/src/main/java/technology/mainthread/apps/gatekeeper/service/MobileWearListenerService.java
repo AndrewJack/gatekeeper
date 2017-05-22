@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import technology.mainthread.apps.gatekeeper.GatekeeperApp;
+import dagger.android.AndroidInjection;
 import technology.mainthread.apps.gatekeeper.common.SharedValues;
 import timber.log.Timber;
 
@@ -30,8 +30,8 @@ public class MobileWearListenerService extends WearableListenerService {
 
     @Override
     public void onCreate() {
+        AndroidInjection.inject(this);
         super.onCreate();
-        GatekeeperApp.get(this).inject(this);
     }
 
     @Override

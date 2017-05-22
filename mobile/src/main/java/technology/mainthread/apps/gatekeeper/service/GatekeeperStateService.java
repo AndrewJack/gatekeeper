@@ -1,6 +1,5 @@
 package technology.mainthread.apps.gatekeeper.service;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -11,9 +10,9 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import javax.inject.Inject;
 
+import dagger.android.DaggerService;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 import technology.mainthread.apps.gatekeeper.data.AppStateController;
@@ -27,7 +26,7 @@ import timber.log.Timber;
 
 import static technology.mainthread.apps.gatekeeper.model.event.StringDefUtil.getGatekeeperState;
 
-public class GatekeeperStateService extends Service {
+public class GatekeeperStateService extends DaggerService {
 
     public static final String ACTION_CHECK_STATE = "ACTION_CHECK_STATE";
     public static final String ACTION_UNLOCK = "ACTION_UNLOCK";
@@ -53,12 +52,6 @@ public class GatekeeperStateService extends Service {
         Intent intent = new Intent(context, GatekeeperStateService.class);
         intent.setAction(action);
         return intent;
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        GatekeeperApp.get(this).inject(this);
     }
 
     @Nullable

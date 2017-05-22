@@ -1,25 +1,26 @@
 package technology.mainthread.apps.gatekeeper;
 
-import android.app.Application;
-import android.content.Context;
-
-import technology.mainthread.apps.gatekeeper.injector.component.AppComponent;
+import dagger.android.AndroidInjector;
+import dagger.android.support.DaggerApplication;
+import technology.mainthread.apps.gatekeeper.injector.component.DaggerAppComponent;
+import technology.mainthread.apps.gatekeeper.injector.module.AppModule;
+import technology.mainthread.apps.gatekeeper.injector.module.WearModule;
 import timber.log.Timber;
 
-public class GatekeeperApp extends Application {
-
-    private AppComponent component;
+public class GatekeeperApp extends DaggerApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        component = AppComponent.Initializer.init(this);
 
         Timber.plant(BuildConfig.DEBUG ? new Timber.DebugTree() : new ReleaseTree());
     }
 
-    public static AppComponent get(Context context) {
-        return ((GatekeeperApp) context.getApplicationContext()).component;
+    @Override
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        return DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .wearModule(new WearModule(this))
+                .create(this);
     }
-
 }

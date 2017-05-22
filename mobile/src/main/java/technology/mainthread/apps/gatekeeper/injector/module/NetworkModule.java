@@ -14,16 +14,13 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
-import technology.mainthread.apps.gatekeeper.BuildConfig;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.data.RemoteConfigKeys;
 import technology.mainthread.apps.gatekeeper.data.service.GatekeeperService;
 import technology.mainthread.apps.gatekeeper.model.GatekeeperAdapterFactory;
-import technology.mainthread.apps.gatekeeper.util.StethoUtil;
 
 @Module
 public class NetworkModule {
@@ -39,12 +36,7 @@ public class NetworkModule {
     @Provides
     @Singleton
     OkHttpClient provideOkHttpClient() {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        if (BuildConfig.DEBUG) {
-            builder.addInterceptor(new HttpLoggingInterceptor());
-            StethoUtil.addInterceptor(builder);
-        }
-        return builder.build();
+        return new OkHttpClient.Builder().build();
     }
 
     @Provides

@@ -7,16 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.trello.rxlifecycle2.components.support.RxFragment;
-
 import javax.inject.Inject;
 
-import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.data.AppStateController;
 import technology.mainthread.apps.gatekeeper.databinding.FragmentUnlockBinding;
+import technology.mainthread.apps.gatekeeper.view.baseHelpers.DaggerRxFragment;
 import technology.mainthread.apps.gatekeeper.viewModel.UnlockFragmentViewModel;
 
-public class UnlockFragment extends RxFragment {
+public class UnlockFragment extends DaggerRxFragment {
 
     @Inject
     AppStateController appStateController;
@@ -25,12 +23,6 @@ public class UnlockFragment extends RxFragment {
 
     public static Fragment newInstance() {
         return new UnlockFragment();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        GatekeeperApp.get(getActivity()).inject(this);
     }
 
     @Nullable

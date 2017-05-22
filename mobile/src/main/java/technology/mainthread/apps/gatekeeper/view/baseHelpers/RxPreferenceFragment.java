@@ -1,4 +1,4 @@
-package technology.mainthread.apps.gatekeeper.view.fragment;
+package technology.mainthread.apps.gatekeeper.view.baseHelpers;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;

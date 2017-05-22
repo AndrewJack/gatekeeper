@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
 
-import technology.mainthread.apps.gatekeeper.GatekeeperApp;
+import dagger.android.support.DaggerAppCompatActivity;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.databinding.ActivityMainBinding;
 import technology.mainthread.apps.gatekeeper.view.fragment.ComingSoonFragment;
@@ -24,7 +23,7 @@ import technology.mainthread.apps.gatekeeper.view.fragment.LogsFragment;
 import technology.mainthread.apps.gatekeeper.view.fragment.UnlockFragment;
 import technology.mainthread.apps.gatekeeper.viewModel.MainActivityViewModel;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends DaggerAppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private static final String EXTRA_FRAGMENT = "extra_fragment";
     public static final String FRAG_UNLOCK = "unlock";
@@ -43,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GatekeeperApp.get(this).inject(this);
 
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setViewModel(new MainActivityViewModel());

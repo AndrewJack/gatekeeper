@@ -3,25 +3,25 @@ package technology.mainthread.apps.gatekeeper.injector.component;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import dagger.android.AndroidInjector;
+import dagger.android.support.AndroidSupportInjectionModule;
 import technology.mainthread.apps.gatekeeper.GatekeeperApp;
-import technology.mainthread.apps.gatekeeper.injector.graph.AppGraph;
 import technology.mainthread.apps.gatekeeper.injector.module.AppModule;
 import technology.mainthread.apps.gatekeeper.injector.module.WearModule;
 
 @Singleton
-@Component(modules = {AppModule.class, WearModule.class})
-public interface AppComponent extends AppGraph {
+@Component(modules = {
+        AppModule.class,
+        WearModule.class,
+        AndroidBindingModule.class,
+        AndroidSupportInjectionModule.class
+})
+public interface AppComponent extends AndroidInjector<GatekeeperApp> {
 
-    final class Initializer {
-        public static AppComponent init(GatekeeperApp app) {
-            return DaggerAppComponent.builder()
-                    .appModule(new AppModule(app))
-                    .wearModule(new WearModule(app))
-                    .build();
-        }
+    @Component.Builder
+    abstract class Builder extends AndroidInjector.Builder<GatekeeperApp> {
+        public abstract Builder appModule(AppModule appModule);
 
-        private Initializer() {
-        } // No instances.
+        public abstract Builder wearModule(WearModule wearModule);
     }
-
 }

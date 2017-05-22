@@ -10,15 +10,15 @@ import android.widget.Toast;
 import javax.inject.Inject;
 
 import de.psdev.licensesdialog.LicensesDialog;
-import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 import technology.mainthread.apps.gatekeeper.data.AndroidAppInfo;
 import technology.mainthread.apps.gatekeeper.data.AuthManager;
 import technology.mainthread.apps.gatekeeper.data.VibratorTunes;
 import technology.mainthread.apps.gatekeeper.view.activity.AuthActivity;
+import technology.mainthread.apps.gatekeeper.view.baseHelpers.DaggerRxPreferenceFragment;
 
-public class SettingsFragment extends RxPreferenceFragment {
+public class SettingsFragment extends DaggerRxPreferenceFragment {
 
     @Inject
     AndroidAppInfo androidAppInfo;
@@ -29,12 +29,6 @@ public class SettingsFragment extends RxPreferenceFragment {
 
     public static Fragment newInstance() {
         return new SettingsFragment();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        GatekeeperApp.get(getActivity()).inject(this);
     }
 
     @Override

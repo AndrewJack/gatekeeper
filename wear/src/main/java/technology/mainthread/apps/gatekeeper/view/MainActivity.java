@@ -3,21 +3,20 @@ package technology.mainthread.apps.gatekeeper.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.activity.ConfirmationActivity;
-import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.GridViewPager;
 import android.view.View;
 
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
-import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.R;
 import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 import technology.mainthread.apps.gatekeeper.messenger.WearToMobileRequester;
+import technology.mainthread.apps.gatekeeper.view.baseHelpers.DaggerWearableActivity;
 
 import static technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper.applyFlowableSchedulers;
 
-public class MainActivity extends WearableActivity implements ActionGridPagerAdapter.ActionClickListener {
+public class MainActivity extends DaggerWearableActivity implements ActionGridPagerAdapter.ActionClickListener {
 
     @Inject
     WearToMobileRequester requester;
@@ -29,7 +28,6 @@ public class MainActivity extends WearableActivity implements ActionGridPagerAda
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GatekeeperApp.get(this).inject(this);
         setContentView(R.layout.activity_main);
 
         pager = (GridViewPager) findViewById(R.id.pager);

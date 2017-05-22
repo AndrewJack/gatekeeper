@@ -1,6 +1,5 @@
 package technology.mainthread.apps.gatekeeper.service;
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
@@ -8,11 +7,11 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import javax.inject.Inject;
 
+import dagger.android.DaggerIntentService;
 import io.reactivex.Observable;
-import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.R;
 
-public class RefreshFCMSubscriptionsService extends IntentService {
+public class RefreshFCMSubscriptionsService extends DaggerIntentService {
 
     private static final String ACTION_REFRESH_FCM_SUBSCRIPTIONS = "ACTION_REFRESH_FCM_SUBSCRIPTIONS";
 
@@ -27,12 +26,6 @@ public class RefreshFCMSubscriptionsService extends IntentService {
         Intent intent = new Intent(context, RefreshFCMSubscriptionsService.class);
         intent.setAction(ACTION_REFRESH_FCM_SUBSCRIPTIONS);
         return intent;
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        GatekeeperApp.get(this).inject(this);
     }
 
     @Override

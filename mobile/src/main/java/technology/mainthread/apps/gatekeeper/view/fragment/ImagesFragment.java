@@ -7,27 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.trello.rxlifecycle2.components.support.RxFragment;
-
 import javax.inject.Inject;
 
-import technology.mainthread.apps.gatekeeper.GatekeeperApp;
 import technology.mainthread.apps.gatekeeper.databinding.FragmentImagesBinding;
+import technology.mainthread.apps.gatekeeper.view.baseHelpers.DaggerRxFragment;
 import technology.mainthread.apps.gatekeeper.viewModel.ImagesFragmentViewModel;
 
-public class ImagesFragment extends RxFragment {
+public class ImagesFragment extends DaggerRxFragment {
 
     @Inject
     ImagesFragmentViewModel viewModel;
 
     public static Fragment newInstance() {
         return new ImagesFragment();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        GatekeeperApp.get(getActivity()).inject(this);
     }
 
     @Nullable
