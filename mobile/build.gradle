@@ -1,9 +1,14 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 def enableFabric = file('fabric.properties').exists()
 if (enableFabric) {
     apply plugin: 'io.fabric'
 }
+
+kotlin { experimental { coroutines 'enable' } }
 
 android {
     compileSdkVersion compileSdk
@@ -15,8 +20,8 @@ android {
         targetSdkVersion targetSdk
         versionCode versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        multiDexEnabled true
 
-        buildConfigField 'boolean', 'ENABLE_FABRIC', "false"
         resValue 'string', 'particle_auth', appProps["particle_auth"] != null ? appProps['particle_auth'] : "Authorization: particle-auth"
         resValue 'string', 'particle_device', appProps["particle_device"] != null ? appProps["particle_device"] : ''
         resValue 'string', 'bucket_name', appProps["bucket_name"] != null ? appProps["bucket_name"] : ''
@@ -58,7 +63,6 @@ android {
             applicationIdSuffix '.debug'
             versionNameSuffix " debug"
             resValue "string", "app_name", "Gatekeeper debug"
-            ext.enableCrashlytics = false
         }
         release {
             if (keyPropsRelease["store"] != null) {
@@ -68,7 +72,6 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "app_name", "Gatekeeper"
-            buildConfigField 'boolean', 'ENABLE_FABRIC', "${enableFabric}"
         }
     }
 
@@ -82,75 +85,66 @@ android {
 dependencies {
 
     // Local
-    compile project(':common')
+    implementation project(':common')
 
     // Android Wear
     wearApp project(':wear')
 
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    kapt "com.android.databinding:compiler:$android_plugin_version"
+
     // Dagger 2
-    provided "javax.annotation:jsr250-api:1.0"
-    compile "com.google.dagger:dagger-android:${daggerVersion}"
-    compile "com.google.dagger:dagger-android-support:${daggerVersion}"
-    annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
-    annotationProcessor "com.google.dagger:dagger-android-processor:${daggerVersion}"
+    compileOnly "javax.annotation:jsr250-api:1.0"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     // Play Services
-    compile "com.google.android.gms:play-services-wearable:${commonPlayServicesVersion}"
+    compile "com.google.android.gms:play-services-wearable:$commonPlayServicesVersion"
 
     // Firebase
-    compile "com.google.firebase:firebase-core:${commonPlayServicesVersion}"
-    compile "com.google.firebase:firebase-config:${commonPlayServicesVersion}"
-    compile "com.google.firebase:firebase-database:${commonPlayServicesVersion}"
-    compile "com.google.firebase:firebase-storage:${commonPlayServicesVersion}"
-    compile "com.google.firebase:firebase-auth:${commonPlayServicesVersion}"
-    compile "com.google.android.gms:play-services-auth:${commonPlayServicesVersion}"
-    compile "com.google.firebase:firebase-messaging:${commonPlayServicesVersion}"
-    compile 'com.firebaseui:firebase-ui-database:1.1.1'
+    implementation "com.google.firebase:firebase-core:$commonPlayServicesVersion"
+    implementation "com.google.firebase:firebase-config:$commonPlayServicesVersion"
+    implementation "com.google.firebase:firebase-database:$commonPlayServicesVersion"
+    implementation "com.google.firebase:firebase-storage:$commonPlayServicesVersion"
+    implementation "com.google.firebase:firebase-auth:$commonPlayServicesVersion"
+    implementation "com.google.android.gms:play-services-auth:$commonPlayServicesVersion"
+    implementation "com.google.firebase:firebase-messaging:$commonPlayServicesVersion"
+    implementation 'com.firebaseui:firebase-ui-database:1.1.1'
 
     // Android support libraries
-    compile "com.android.support:support-v4:${commonSupportLibraryVersion}"
-    compile "com.android.support:support-v13:${commonSupportLibraryVersion}"
-    compile "com.android.support:appcompat-v7:${commonSupportLibraryVersion}"
-    compile "com.android.support:recyclerview-v7:${commonSupportLibraryVersion}"
-    compile "com.android.support:cardview-v7:${commonSupportLibraryVersion}"
-    compile "com.android.support:design:${commonSupportLibraryVersion}"
-    compile "com.android.support:preference-v14:${commonSupportLibraryVersion}"
+    implementation "com.android.support:support-v4:${commonSupportLibraryVersion}"
+    implementation "com.android.support:support-v13:${commonSupportLibraryVersion}"
+    implementation "com.android.support:appcompat-v7:${commonSupportLibraryVersion}"
+    implementation "com.android.support:recyclerview-v7:${commonSupportLibraryVersion}"
+    implementation "com.android.support:cardview-v7:${commonSupportLibraryVersion}"
+    implementation "com.android.support:design:${commonSupportLibraryVersion}"
+    implementation "com.android.support:preference-v14:${commonSupportLibraryVersion}"
 
     // rx
-    compile "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
-    compile "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
-    compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
-
-    // Crash logs
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
-    }
+    implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
+    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.1.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
 
     // Networking
-    compile 'com.squareup.retrofit2:retrofit:2.2.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
-    compile 'com.squareup.retrofit2:converter-moshi:2.2.0'
-    compile 'com.squareup.moshi:moshi:1.4.0'
-    compile 'com.squareup.okhttp3:okhttp:3.7.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.7.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
-
-    // Autovalue
-    annotationProcessor 'com.google.auto.value:auto-value:1.4.1'
-    provided 'com.jakewharton.auto.value:auto-value-annotations:1.4'
-    annotationProcessor 'com.ryanharter.auto.value:auto-value-moshi:0.4.3'
-    provided 'com.ryanharter.auto.value:auto-value-moshi-annotations:0.4.3'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.3.0'
+    implementation 'com.squareup.moshi:moshi:1.5.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
 
     // Other
-    compile 'com.squareup.okio:okio:1.12.0'
-    compile 'com.jakewharton.timber:timber:4.5.1'
-    compile('de.psdev.licensesdialog:licensesdialog:1.8.2') { exclude module: 'support-v4' }
+    implementation 'com.squareup.okio:okio:1.13.0'
+    implementation 'com.jakewharton.timber:timber:4.5.1'
+    implementation('de.psdev.licensesdialog:licensesdialog:1.8.2') { exclude module: 'support-v4' }
 
-    // Test
-    testCompile 'junit:junit:4.12'
 }
 
 if (file("google-services.json").exists()) {
@@ -160,4 +154,3 @@ if (file("google-services.json").exists()) {
         resValue 'string', 'default_web_client_id', 'temp_client_id'
     }
 }
-apply from: '../config/static-analysis.gradle'

@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="@{!viewModel.loading}"
-                android:onClick="@{viewModel.onUnlockClicked}"
+                android:onClick="@{viewModel::onUnlockClicked}"
                 android:text="@string/btn_title_unlock" />
 
             <Button
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:enabled="@{!viewModel.loading}"
-                android:onClick="@{viewModel.onPrimeClicked}"
+                android:onClick="@{viewModel::onPrimeClicked}"
                 android:text="@string/btn_title_prime" />
 
         </LinearLayout>

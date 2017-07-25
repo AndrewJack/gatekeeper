@@ -10,11 +10,10 @@ import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 import technology.mainthread.apps.gatekeeper.R;
-import technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper;
 import technology.mainthread.apps.gatekeeper.messenger.WearToMobileRequester;
 import technology.mainthread.apps.gatekeeper.view.baseHelpers.DaggerWearableActivity;
 
-import static technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelper.applyFlowableSchedulers;
+import static technology.mainthread.apps.gatekeeper.common.rx.RxSchedulerHelperKt.applyFlowableSchedulers;
 
 public class MainActivity extends DaggerWearableActivity implements ActionGridPagerAdapter.ActionClickListener {
 
@@ -57,7 +56,7 @@ public class MainActivity extends DaggerWearableActivity implements ActionGridPa
                     .subscribe(this::handleResult));
         } else if (GatekeeperAction.ACTION_UNLOCK.equalsIgnoreCase(action)) {
             cs.add(requester.unlock()
-                    .compose(RxSchedulerHelper.<Boolean>applyFlowableSchedulers())
+                    .compose(applyFlowableSchedulers())
                     .subscribe(this::handleResult));
         }
     }
