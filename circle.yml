@@ -1,38 +1,28 @@
-machine:
-    java:
-        version: oraclejdk8
+version: 2
+jobs:
+  build:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-25-alpha
+    parallelism: 2
     environment:
-        _JAVA_OPTIONS: "-Xms512m -Xmx2048m"
-        GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError" -Dorg.gradle.daemon=false -Dorg.gradle.parallel=false'
-
-dependencies:
-    pre:
-        - echo y | android update sdk -u -a -t tool
-        - echo y | android update sdk --no-ui --all --filter platform-tools,tools,android-25,build-tools-25.0.3,extra-android-m2repository,extra-google-m2repository
-    cache_directories:
-        - ~/.android
-    override:
-        - chmod +x gradlew
-        - ./gradlew dependencies
-
-test:
-    override:
-        - case $CIRCLE_NODE_INDEX in 0) ./gradlew assembleDebug -Pandroid.threadPoolSize=1 --stacktrace ;; 1) ./gradlew assembleRelease -Pandroid.threadPoolSize=1 --stacktrace ;; esac:
-                parallel: true
-    post:
-        # Apks
-        - mkdir -p $CIRCLE_ARTIFACTS/apk && find . -type f -regex ".*mobile/build/outputs/apk/.*apk" -exec cp {} $CIRCLE_ARTIFACTS/apk/ \;
-
-        # Lint
-        - mkdir -p $CIRCLE_TEST_REPORTS/lint/
-        - find . -type f -regex ".*lint-results-*.*" -exec cp --parent {} $CIRCLE_TEST_REPORTS/lint/ \;
-
-        # Coverage
-        - mkdir -p $CIRCLE_TEST_REPORTS/coverage/
-        - find . -type f -regex ".*build/reports/jacoco/.*" -exec cp --parent {} $CIRCLE_TEST_REPORTS/coverage/ \;
-
-        # Unit tests
-        - mkdir -p $CIRCLE_TEST_REPORTS/junit-xml/
-        - find . -type f -regex ".*test-results.*xml" -exec cp --parent {} $CIRCLE_TEST_REPORTS/junit-xml/ \;
-        - mkdir -p $CIRCLE_TEST_REPORTS/junit-html/
-        - find . -type f -regex ".*build/reports/tests/.*" -exec cp --parent {} $CIRCLE_TEST_REPORTS/junit-html/ \;
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "build.gradle" }}
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "build.gradle" }}
+      - run:
+          name: Run Tests
+          command: case $CIRCLE_NODE_INDEX in 0) ./gradlew lint --stacktrace ;; 1) ./gradlew assemble --stacktrace ;; esac
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+      - store_test_results:
+          path: app/build/test-results
