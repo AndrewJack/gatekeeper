@@ -67,12 +67,12 @@ subprojects {
         versionPatch = 0
         versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
-        targetSdk = 25
-        compileSdk = 25
+        targetSdk = 26
+        compileSdk = 26
         minSdk = 23
-        buildTools = "25.0.3"
+        buildTools = "26.0.1"
         commonPlayServicesVersion = '11.0.2'
-        commonSupportLibraryVersion = '25.4.0'
+        commonSupportLibraryVersion = '26.0.0'
         daggerVersion = '2.11'
         rxJavaVersion = '2.1.1'
         rxAndroidVersion = '2.0.1'
@@ -83,7 +83,9 @@ subprojects {
             eachDependency { details ->
                 // Force all of the primary support libraries to use the same version.
                 if (details.requested.group == 'com.android.support') {
-                    details.useVersion commonSupportLibraryVersion
+                    if (details.requested.name != 'multidex') {
+                        details.useVersion commonSupportLibraryVersion
+                    }
                 }
             }
         }
