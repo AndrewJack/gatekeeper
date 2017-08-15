@@ -110,8 +110,9 @@ dependencies {
     implementation "com.google.firebase:firebase-database:$commonPlayServicesVersion"
     implementation "com.google.firebase:firebase-storage:$commonPlayServicesVersion"
     implementation "com.google.firebase:firebase-auth:$commonPlayServicesVersion"
-    implementation "com.google.android.gms:play-services-auth:$commonPlayServicesVersion"
     implementation "com.google.firebase:firebase-messaging:$commonPlayServicesVersion"
+    implementation "com.google.firebase:firebase-crash:$commonPlayServicesVersion"
+    implementation "com.google.android.gms:play-services-auth:$commonPlayServicesVersion"
     implementation 'com.firebaseui:firebase-ui-database:1.1.1'
 
     // Android support libraries
@@ -143,12 +144,13 @@ dependencies {
     // Other
     implementation 'com.squareup.okio:okio:1.13.0'
     implementation 'com.jakewharton.timber:timber:4.5.1'
-    implementation('de.psdev.licensesdialog:licensesdialog:1.8.2') { exclude module: 'support-v4' }
+    implementation('de.psdev.licensesdialog:licensesdialog:1.8.3') { exclude module: 'support-v4' }
 
 }
 
 if (file("google-services.json").exists()) {
     apply plugin: 'com.google.gms.google-services'
+    apply plugin: 'com.google.firebase.firebase-crash'
 } else {
     android.defaultConfig {
         resValue 'string', 'default_web_client_id', 'temp_client_id'

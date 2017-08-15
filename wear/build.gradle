@@ -79,11 +79,11 @@ dependencies {
     kapt "com.android.databinding:compiler:$android_plugin_version"
 
     // Play Services
-    implementation 'com.google.android.gms:play-services-wearable:11.0.2'
+    implementation "com.google.android.gms:play-services-wearable:$commonPlayServicesVersion"
 
     // Wear support libraries
-    compileOnly 'com.google.android.wearable:wearable:2.0.3'
-    implementation 'com.google.android.support:wearable:2.0.3'
+    compileOnly 'com.google.android.wearable:wearable:2.0.4'
+    implementation 'com.google.android.support:wearable:2.0.4'
 
     // Dagger 2
     compileOnly "javax.annotation:jsr250-api:1.0"
