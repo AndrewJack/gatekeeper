@@ -112,6 +112,7 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:$commonPlayServicesVersion"
     implementation "com.google.firebase:firebase-messaging:$commonPlayServicesVersion"
     implementation "com.google.firebase:firebase-crash:$commonPlayServicesVersion"
+    implementation "com.google.firebase:firebase-perf:$commonPlayServicesVersion"
     implementation "com.google.android.gms:play-services-auth:$commonPlayServicesVersion"
     implementation 'com.firebaseui:firebase-ui-database:1.1.1'
 
@@ -151,6 +152,7 @@ dependencies {
 if (file("google-services.json").exists()) {
     apply plugin: 'com.google.gms.google-services'
     apply plugin: 'com.google.firebase.firebase-crash'
+    apply plugin: 'com.google.firebase.firebase-perf'
 } else {
     android.defaultConfig {
         resValue 'string', 'default_web_client_id', 'temp_client_id'
