@@ -33,7 +33,7 @@ class SettingsFragment : DaggerRxPreferenceFragment() {
         addPreferencesFromResource(R.xml.preferences)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findPreference("pref_sign_out").setOnPreferenceClickListener { _ ->
             authManager.signOut()
@@ -91,8 +91,8 @@ class SettingsFragment : DaggerRxPreferenceFragment() {
     }
 
     private fun onSignOutSuccess() {
-        activity.startActivity(getAuthIntent(activity))
-        activity.finish()
+        activity?.startActivity(getAuthIntent(activity!!))
+        activity?.finish()
     }
 
 }

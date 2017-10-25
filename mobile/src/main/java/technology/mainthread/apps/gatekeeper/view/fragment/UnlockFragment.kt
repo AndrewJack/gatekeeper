@@ -1,5 +1,6 @@
 package technology.mainthread.apps.gatekeeper.view.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -27,7 +28,7 @@ class UnlockFragment : DaggerRxFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentUnlockBinding.inflate(inflater, container, false)
-        viewModel = UnlockFragmentViewModel(context, binding.root, appStateController, this.bindToLifecycle<AppEvent>())
+        viewModel = UnlockFragmentViewModel(context as Context, binding.root, appStateController, this.bindToLifecycle<AppEvent>())
         binding.viewModel = viewModel
         return binding.root
     }
