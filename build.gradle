@@ -67,10 +67,10 @@ subprojects {
         versionPatch = 0
         versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
-        targetSdk = 26
-        compileSdk = 26
+        targetSdk = 27
+        compileSdk = 27
         minSdk = 23
-        buildTools = "26.0.2"
+        buildTools = "27.0.0"
         commonPlayServicesVersion = '11.4.2'
         commonSupportLibraryVersion = '27.0.0'
         daggerVersion = '2.12'
