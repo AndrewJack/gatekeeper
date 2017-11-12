@@ -10,10 +10,11 @@ import com.google.firebase.auth.GoogleAuthProvider
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Emitter
 import io.reactivex.Flowable
-import technology.mainthread.apps.gatekeeper.common.CONNECTION_TIME_OUT_MS
 import timber.log.Timber
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
+
+const val CONNECTION_TIME_OUT_MS = (30 * 1000).toLong()
 
 class GatekeeperAuthManager(override val googleApiClient: GoogleApiClient,
                             private val firebaseAuth: FirebaseAuth,

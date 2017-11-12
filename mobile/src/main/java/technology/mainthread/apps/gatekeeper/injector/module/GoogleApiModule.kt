@@ -6,7 +6,6 @@ import android.content.res.Resources
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.wearable.Wearable
 import dagger.Module
 import dagger.Provides
 import technology.mainthread.apps.gatekeeper.R
@@ -33,12 +32,4 @@ class GoogleApiModule(application: Application) {
                 .build()
     }
 
-    @Provides
-    @Singleton
-    @Named("wear")
-    internal fun providesWearApiClient(): GoogleApiClient {
-        return GoogleApiClient.Builder(context)
-                .addApi(Wearable.API)
-                .build()
-    }
 }

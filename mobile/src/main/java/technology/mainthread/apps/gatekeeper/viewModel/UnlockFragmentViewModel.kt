@@ -8,7 +8,7 @@ import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.view.View
 import com.trello.rxlifecycle2.LifecycleTransformer
-import technology.mainthread.apps.gatekeeper.common.rx.applyObservableSchedulers
+import technology.mainthread.apps.gatekeeper.rx.applyObservableSchedulers
 import technology.mainthread.apps.gatekeeper.data.AppStateController
 import technology.mainthread.apps.gatekeeper.model.event.AppEvent
 import technology.mainthread.apps.gatekeeper.model.event.AppEventType

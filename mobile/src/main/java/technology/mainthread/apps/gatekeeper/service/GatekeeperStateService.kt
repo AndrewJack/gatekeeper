@@ -10,7 +10,7 @@ import dagger.android.DaggerService
 import io.reactivex.disposables.CompositeDisposable
 import retrofit2.Response
 import technology.mainthread.apps.gatekeeper.R
-import technology.mainthread.apps.gatekeeper.common.rx.applyFlowableSchedulers
+import technology.mainthread.apps.gatekeeper.rx.applyFlowableSchedulers
 import technology.mainthread.apps.gatekeeper.data.AppStateController
 import technology.mainthread.apps.gatekeeper.data.PARTICLE_AUTH
 import technology.mainthread.apps.gatekeeper.data.service.GatekeeperService

@@ -48,8 +48,5 @@ internal abstract class AndroidBindingModule {
     internal abstract fun messagingService(): MessagingService
 
     @ContributesAndroidInjector
-    internal abstract fun mobileWearListenerService(): MobileWearListenerService
-
-    @ContributesAndroidInjector
     internal abstract fun refreshFCMSubscriptionsService(): RefreshFCMSubscriptionsService
 }

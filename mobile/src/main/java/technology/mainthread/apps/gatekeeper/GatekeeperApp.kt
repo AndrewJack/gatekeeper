@@ -14,7 +14,7 @@ import javax.inject.Inject
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import io.reactivex.Completable
-import technology.mainthread.apps.gatekeeper.common.rx.applyCompletableSchedulers
+import technology.mainthread.apps.gatekeeper.rx.applyCompletableSchedulers
 import technology.mainthread.apps.gatekeeper.data.CrashTree
 import technology.mainthread.apps.gatekeeper.data.*
 import technology.mainthread.apps.gatekeeper.injector.component.DaggerAppComponent

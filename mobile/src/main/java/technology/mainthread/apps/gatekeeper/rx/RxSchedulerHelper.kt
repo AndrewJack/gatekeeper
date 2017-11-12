@@ -1,4 +1,4 @@
-package technology.mainthread.apps.gatekeeper.common.rx
+package technology.mainthread.apps.gatekeeper.rx
 
 import io.reactivex.CompletableTransformer
 import io.reactivex.FlowableTransformer

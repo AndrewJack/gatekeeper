@@ -84,12 +84,6 @@ android {
 
 dependencies {
 
-    // Local
-    implementation project(':common')
-
-    // Android Wear
-    wearApp project(':wear')
-
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     kapt "com.android.databinding:compiler:$android_plugin_version"

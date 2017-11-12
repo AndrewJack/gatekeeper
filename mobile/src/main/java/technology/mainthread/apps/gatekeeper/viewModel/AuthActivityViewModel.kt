@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.api.GoogleApiClient
-import technology.mainthread.apps.gatekeeper.common.rx.applyFlowableSchedulers
+import technology.mainthread.apps.gatekeeper.rx.applyFlowableSchedulers
 import technology.mainthread.apps.gatekeeper.data.AuthManager
 import technology.mainthread.apps.gatekeeper.databinding.ActivityAuthBinding
 import technology.mainthread.apps.gatekeeper.view.activity.FRAG_UNLOCK

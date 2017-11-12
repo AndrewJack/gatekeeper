@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.Toast
 import de.psdev.licensesdialog.LicensesDialog
 import technology.mainthread.apps.gatekeeper.R
-import technology.mainthread.apps.gatekeeper.common.rx.applyFlowableSchedulers
+import technology.mainthread.apps.gatekeeper.rx.applyFlowableSchedulers
 import technology.mainthread.apps.gatekeeper.data.AndroidAppInfo
 import technology.mainthread.apps.gatekeeper.data.AuthManager
 import technology.mainthread.apps.gatekeeper.data.VibratorTunes
