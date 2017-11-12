@@ -7,20 +7,22 @@ import android.support.v4.app.Fragment
 import android.view.View
 import android.widget.Toast
 import de.psdev.licensesdialog.LicensesDialog
+import io.reactivex.disposables.CompositeDisposable
 import technology.mainthread.apps.gatekeeper.R
 import technology.mainthread.apps.gatekeeper.rx.applyFlowableSchedulers
 import technology.mainthread.apps.gatekeeper.data.AndroidAppInfo
 import technology.mainthread.apps.gatekeeper.data.AuthManager
 import technology.mainthread.apps.gatekeeper.data.VibratorTunes
+import technology.mainthread.apps.gatekeeper.rx.plusAssign
 import technology.mainthread.apps.gatekeeper.view.activity.getAuthIntent
-import technology.mainthread.apps.gatekeeper.view.baseHelpers.DaggerRxPreferenceFragment
+import technology.mainthread.apps.gatekeeper.view.baseHelpers.DaggerPreferenceFragment
 import javax.inject.Inject
 
 fun buildSettingsFragment(): Fragment {
     return SettingsFragment()
 }
 
-class SettingsFragment : DaggerRxPreferenceFragment() {
+class SettingsFragment : DaggerPreferenceFragment() {
 
     @Inject
     internal lateinit var androidAppInfo: AndroidAppInfo
@@ -29,6 +31,8 @@ class SettingsFragment : DaggerRxPreferenceFragment() {
     @Inject
     internal lateinit var authManager: AuthManager
 
+    private var disposables: CompositeDisposable = CompositeDisposable()
+
     override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         addPreferencesFromResource(R.xml.preferences)
     }
@@ -36,9 +40,8 @@ class SettingsFragment : DaggerRxPreferenceFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findPreference("pref_sign_out").setOnPreferenceClickListener { _ ->
-            authManager.signOut()
+            disposables += authManager.signOut()
                     .compose(applyFlowableSchedulers<Boolean>())
-                    .compose(bindToLifecycle<Boolean>())
                     .subscribe { success ->
                         if (success) {
                             showToast(R.string.sign_out_success)
@@ -50,9 +53,8 @@ class SettingsFragment : DaggerRxPreferenceFragment() {
             true
         }
         findPreference("pref_delete").setOnPreferenceClickListener { _ ->
-            authManager.deleteAccount()
+            disposables += authManager.deleteAccount()
                     .compose(applyFlowableSchedulers<Boolean>())
-                    .compose(bindToLifecycle<Boolean>())
                     .subscribe { success ->
                         if (success) {
                             showToast(R.string.delete_account_success)
@@ -78,6 +80,11 @@ class SettingsFragment : DaggerRxPreferenceFragment() {
 
             true
         }
+    }
+
+    override fun onDestroyView() {
+        disposables.dispose()
+        super.onDestroyView()
     }
 
     private fun showLicencesDialog() {

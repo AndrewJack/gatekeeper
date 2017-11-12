@@ -120,9 +120,6 @@ dependencies {
     // rx
     implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     implementation "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
-    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.0'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.0'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.0'
 
     // Networking
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'

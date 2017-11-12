@@ -5,8 +5,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.android.support.DaggerFragment
 import technology.mainthread.apps.gatekeeper.databinding.FragmentLogsBinding
-import technology.mainthread.apps.gatekeeper.view.baseHelpers.DaggerRxFragment
 import technology.mainthread.apps.gatekeeper.viewModel.LogsFragmentViewModel
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ fun buildLogsFragment(): Fragment {
     return LogsFragment()
 }
 
-class LogsFragment : DaggerRxFragment() {
+class LogsFragment : DaggerFragment() {
 
     @Inject
     internal lateinit var viewModel: LogsFragmentViewModel

@@ -7,7 +7,7 @@ import android.databinding.ObservableField
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.view.View
-import com.trello.rxlifecycle2.LifecycleTransformer
+import io.reactivex.disposables.Disposable
 import technology.mainthread.apps.gatekeeper.rx.applyObservableSchedulers
 import technology.mainthread.apps.gatekeeper.data.AppStateController
 import technology.mainthread.apps.gatekeeper.model.event.AppEvent
@@ -19,24 +19,28 @@ import technology.mainthread.apps.gatekeeper.service.getGatekeeperStateIntent
 
 class UnlockFragmentViewModel(private val context: Context,
                               private val rootView: View,
-                              private val appStateController: AppStateController,
-                              private val lifecycleTransformer: LifecycleTransformer<AppEvent>) : BaseObservable() {
+                              private val appStateController: AppStateController) : BaseObservable() {
 
     var loading = ObservableBoolean()
 
     var deviceStatus = ObservableField<String>()
 
+    private var disposable: Disposable? = null
+
     /**
      * Setup the device status thing.
      */
     fun initialize() {
-        appStateController.observable
-                .compose(lifecycleTransformer)
+        disposable = appStateController.observable
                 .compose(applyObservableSchedulers<AppEvent>())
                 .subscribe { event -> onAppEvent(event) }
 
         deviceStatus.set(appStateController.lastKnownGatekeeperState.label)
         context.startService(getGatekeeperStateIntent(context, ACTION_CHECK_STATE))
+    }
+
+    fun dispose() {
+        disposable?.dispose()
     }
 
     fun onUnlockClicked(view: View) {

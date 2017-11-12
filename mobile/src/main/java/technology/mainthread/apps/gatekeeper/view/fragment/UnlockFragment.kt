@@ -6,36 +6,38 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import javax.inject.Inject
-
+import dagger.android.support.DaggerFragment
 import technology.mainthread.apps.gatekeeper.data.AppStateController
 import technology.mainthread.apps.gatekeeper.databinding.FragmentUnlockBinding
-import technology.mainthread.apps.gatekeeper.model.event.AppEvent
-import technology.mainthread.apps.gatekeeper.view.baseHelpers.DaggerRxFragment
 import technology.mainthread.apps.gatekeeper.viewModel.UnlockFragmentViewModel
+import javax.inject.Inject
 
 fun buildUnlockFragment(): Fragment {
     return UnlockFragment()
 }
 
-class UnlockFragment : DaggerRxFragment() {
+class UnlockFragment : DaggerFragment() {
 
     @Inject
     internal lateinit var appStateController: AppStateController
 
-    private lateinit var viewModel: UnlockFragmentViewModel
+    private var viewModel: UnlockFragmentViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = FragmentUnlockBinding.inflate(inflater, container, false)
-        viewModel = UnlockFragmentViewModel(context as Context, binding.root, appStateController, this.bindToLifecycle<AppEvent>())
+        viewModel = UnlockFragmentViewModel(context as Context, binding.root, appStateController)
         binding.viewModel = viewModel
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.initialize()
+        viewModel?.initialize()
+    }
+
+    override fun onDestroyView() {
+        viewModel?.dispose()
+        super.onDestroyView()
     }
 
 }

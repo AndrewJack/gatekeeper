@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.android.support.DaggerFragment
 import technology.mainthread.apps.gatekeeper.databinding.FragmentImagesBinding
-import technology.mainthread.apps.gatekeeper.view.baseHelpers.DaggerRxFragment
 import technology.mainthread.apps.gatekeeper.viewModel.ImagesFragmentViewModel
 import javax.inject.Inject
 
-class ImagesFragment : DaggerRxFragment() {
+class ImagesFragment : DaggerFragment() {
 
     @Inject
     internal lateinit var viewModel: ImagesFragmentViewModel
