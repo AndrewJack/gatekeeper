@@ -1,8 +1,8 @@
 package technology.mainthread.apps.gatekeeper.viewModel
 
-import android.databinding.BaseObservable
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.BaseObservable
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import technology.mainthread.apps.gatekeeper.R

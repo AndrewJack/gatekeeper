@@ -1,6 +1,6 @@
 package technology.mainthread.apps.gatekeeper
 
-import android.support.v4.util.ArrayMap
+import androidx.collection.ArrayMap
 
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability

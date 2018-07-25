@@ -2,8 +2,8 @@ package technology.mainthread.apps.gatekeeper.view.fragment
 
 import android.os.Bundle
 import android.os.Vibrator
-import android.support.annotation.StringRes
-import android.support.v4.app.Fragment
+import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import de.psdev.licensesdialog.LicensesDialog

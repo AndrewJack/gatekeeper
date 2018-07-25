@@ -1,18 +1,19 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.1.51'
-    ext.android_plugin_version = '3.0.0'
+    ext.kotlin_version = '1.2.51'
+    ext.android_plugin_version = '3.2.0-beta04'
     repositories {
-        jcenter()
         google()
+        jcenter()
         maven { url 'https://maven.fabric.io/public' }
     }
 
     dependencies {
         classpath "com.android.tools.build:gradle:$android_plugin_version"
+        //noinspection DifferentKotlinGradleVersion
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.gms:google-services:3.1.1'
+        classpath 'com.google.gms:google-services:4.0.2'
         //noinspection GradleDynamicVersion
         classpath 'io.fabric.tools:gradle:1.+'
     }
@@ -20,9 +21,8 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
         google()
-        maven { url 'https://maven.fabric.io/public' }
+        jcenter()
     }
 }
 
@@ -42,7 +42,7 @@ subprojects {
         }
 
         // keystore property
-        def Properties localProps = new Properties()
+        Properties localProps = new Properties()
         if (file('../local.properties').exists()) {
             localProps.load(new FileInputStream(file('../local.properties')))
         }
@@ -67,15 +67,13 @@ subprojects {
         versionPatch = 0
         versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
-        targetSdk = 27
-        compileSdk = 27
-        minSdk = 24
-        buildTools = "27.0.0"
-        commonPlayServicesVersion = '11.6.0'
-        commonSupportLibraryVersion = '27.0.1'
-        daggerVersion = '2.13'
-        rxJavaVersion = '2.1.3'
-        rxAndroidVersion = '2.0.1'
+        targetSdk = 28
+        compileSdk = 28
+        minSdk = 25
+        buildTools = "28.0.1"
+        daggerVersion = '2.16'
+        rxJavaVersion = '2.1.17'
+        rxAndroidVersion = '2.0.2'
     }
 
     project.configurations.all {

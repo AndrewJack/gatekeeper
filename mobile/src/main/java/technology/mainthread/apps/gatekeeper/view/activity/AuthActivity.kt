@@ -2,7 +2,7 @@ package technology.mainthread.apps.gatekeeper.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import dagger.android.support.DaggerAppCompatActivity
 import technology.mainthread.apps.gatekeeper.R
@@ -31,7 +31,7 @@ class AuthActivity : DaggerAppCompatActivity() {
         super.onDestroy()
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         viewModel.handleActivityResult(requestCode, data)
     }

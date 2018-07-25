@@ -1,5 +1,5 @@
 package technology.mainthread.apps.gatekeeper.viewModel
 
-import android.databinding.BaseObservable
+import androidx.databinding.BaseObservable
 
 class MainActivityViewModel : BaseObservable()

@@ -1,6 +1,6 @@
 package technology.mainthread.apps.gatekeeper.data
 
-import android.support.v4.util.ArrayMap
+import androidx.collection.ArrayMap
 
 object VibratorTunes {
 

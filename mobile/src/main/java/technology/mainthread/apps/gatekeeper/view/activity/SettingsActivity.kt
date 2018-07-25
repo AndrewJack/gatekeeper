@@ -2,7 +2,7 @@ package technology.mainthread.apps.gatekeeper.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import dagger.android.support.DaggerAppCompatActivity
 import technology.mainthread.apps.gatekeeper.R

@@ -1,6 +1,6 @@
 package technology.mainthread.apps.gatekeeper.data
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Vibrator
 import android.preference.PreferenceManager
-import android.support.v4.app.NotificationManagerCompat
+import androidx.core.app.NotificationManagerCompat
 
 import com.google.android.gms.common.GoogleApiAvailability
 

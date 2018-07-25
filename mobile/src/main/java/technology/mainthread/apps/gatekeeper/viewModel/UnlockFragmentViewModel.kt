@@ -1,11 +1,11 @@
 package technology.mainthread.apps.gatekeeper.viewModel
 
 import android.content.Context
-import android.databinding.BaseObservable
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
-import android.support.annotation.StringRes
-import android.support.design.widget.Snackbar
+import androidx.databinding.BaseObservable
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.annotation.StringRes
+import com.google.android.material.snackbar.Snackbar
 import android.view.View
 import io.reactivex.disposables.Disposable
 import technology.mainthread.apps.gatekeeper.rx.applyObservableSchedulers

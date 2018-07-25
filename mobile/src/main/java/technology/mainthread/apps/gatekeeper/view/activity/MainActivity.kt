@@ -2,10 +2,10 @@ package technology.mainthread.apps.gatekeeper.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.fragment.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.analytics.FirebaseAnalytics

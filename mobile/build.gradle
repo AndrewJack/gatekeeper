@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-platform-android'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -32,6 +33,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kapt {
+        mapDiagnosticLocations = true
     }
 
     dataBinding {
@@ -85,8 +90,7 @@ android {
 dependencies {
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    kapt "com.android.databinding:compiler:$android_plugin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // Dagger 2
     compileOnly "javax.annotation:jsr250-api:1.0"
@@ -95,45 +99,42 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
-    // Play Services
-    compile "com.google.android.gms:play-services-wearable:$commonPlayServicesVersion"
-
     // Firebase
-    implementation "com.google.firebase:firebase-core:$commonPlayServicesVersion"
-    implementation "com.google.firebase:firebase-config:$commonPlayServicesVersion"
-    implementation "com.google.firebase:firebase-database:$commonPlayServicesVersion"
-    implementation "com.google.firebase:firebase-storage:$commonPlayServicesVersion"
-    implementation "com.google.firebase:firebase-auth:$commonPlayServicesVersion"
-    implementation "com.google.android.gms:play-services-auth:$commonPlayServicesVersion"
-    implementation "com.google.firebase:firebase-messaging:$commonPlayServicesVersion"
+    implementation "com.google.firebase:firebase-core:16.0.1"
+    implementation "com.google.firebase:firebase-config:16.0.0"
+    implementation "com.google.firebase:firebase-database:16.0.1"
+    implementation "com.google.firebase:firebase-storage:16.0.1"
+    implementation "com.google.firebase:firebase-auth:16.0.2"
+    implementation "com.google.android.gms:play-services-auth:15.0.1"
+    implementation "com.google.firebase:firebase-messaging:17.1.0"
     implementation 'com.firebaseui:firebase-ui-database:1.1.1'
 
     // Android support libraries
-    implementation "com.android.support:support-v4:${commonSupportLibraryVersion}"
-    implementation "com.android.support:support-v13:${commonSupportLibraryVersion}"
-    implementation "com.android.support:appcompat-v7:${commonSupportLibraryVersion}"
-    implementation "com.android.support:recyclerview-v7:${commonSupportLibraryVersion}"
-    implementation "com.android.support:cardview-v7:${commonSupportLibraryVersion}"
-    implementation "com.android.support:design:${commonSupportLibraryVersion}"
-    implementation "com.android.support:preference-v14:${commonSupportLibraryVersion}"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
+    implementation 'androidx.legacy:legacy-support-v13:1.0.0-beta01'
+    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
+    implementation 'androidx.cardview:cardview:1.0.0-beta01'
+    implementation 'com.google.android.material:material:1.0.0-beta01'
+    implementation 'androidx.legacy:legacy-preference-v14:1.0.0-beta01'
 
     // rx
     implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     implementation "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
 
     // Networking
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-moshi:2.3.0'
-    implementation 'com.squareup.moshi:moshi:1.5.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
+    implementation 'com.squareup.moshi:moshi:1.6.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
 
     // Other
-    implementation 'com.squareup.okio:okio:1.13.0'
-    implementation 'com.jakewharton.timber:timber:4.6.0'
+    implementation 'com.squareup.okio:okio:1.15.0'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation('de.psdev.licensesdialog:licensesdialog:1.8.3') { exclude module: 'support-v4' }
 
 }

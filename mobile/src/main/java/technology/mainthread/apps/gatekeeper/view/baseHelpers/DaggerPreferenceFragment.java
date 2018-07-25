@@ -1,8 +1,8 @@
 package technology.mainthread.apps.gatekeeper.view.baseHelpers;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v7.preference.PreferenceFragmentCompat;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceFragmentCompat;
 
 import javax.inject.Inject;
 

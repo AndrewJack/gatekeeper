@@ -1,9 +1,9 @@
 package technology.mainthread.apps.gatekeeper.viewModel
 
 import android.content.Intent
-import android.databinding.BaseObservable
+import androidx.databinding.BaseObservable
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.api.GoogleApiClient
@@ -51,8 +51,8 @@ class AuthActivityViewModel @Inject internal constructor(private val authManager
         activity?.startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    fun handleActivityResult(requestCode: Int, data: Intent) {
-        if (requestCode == RC_SIGN_IN) {
+    fun handleActivityResult(requestCode: Int, data: Intent?) {
+        if (requestCode == RC_SIGN_IN && data != null) {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             Timber.d("Google signin result: %s", result.isSuccess)
             if (result.isSuccess) {

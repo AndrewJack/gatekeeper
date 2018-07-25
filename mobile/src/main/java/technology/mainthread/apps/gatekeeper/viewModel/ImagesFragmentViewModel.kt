@@ -1,10 +1,10 @@
 package technology.mainthread.apps.gatekeeper.viewModel
 
 import android.content.res.Resources
-import android.databinding.BaseObservable
+import androidx.databinding.BaseObservable
 import android.net.Uri
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
