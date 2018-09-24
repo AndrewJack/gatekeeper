@@ -1,8 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.51'
-    ext.android_plugin_version = '3.2.0-beta05'
+    ext.kotlin_version = '1.2.71'
+    ext.android_plugin_version = '3.2.0'
     repositories {
         google()
         jcenter()
@@ -14,8 +14,7 @@ buildscript {
         //noinspection DifferentKotlinGradleVersion
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.0.2'
-        //noinspection GradleDynamicVersion
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'io.fabric.tools:gradle:1.25.4'
     }
 }
 
@@ -70,10 +69,10 @@ subprojects {
         targetSdk = 28
         compileSdk = 28
         minSdk = 25
-        buildTools = "28.0.1"
-        daggerVersion = '2.16'
-        rxJavaVersion = '2.1.17'
-        rxAndroidVersion = '2.0.2'
+        buildTools = "28.0.2"
+        daggerVersion = '2.17'
+        rxJavaVersion = '2.2.2'
+        rxAndroidVersion = '2.1.0'
     }
 
     project.configurations.all {
